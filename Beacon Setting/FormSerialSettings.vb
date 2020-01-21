@@ -54,6 +54,9 @@ Public Class FormSerialSettings
         ' Clear RTS
         cboxRTS.Checked = FormMain.SerialComm.RtsEnable
 
+        ' Clear DTR
+        cboxDTR.Checked = FormMain.SerialComm.DtrEnable
+
     End Sub
 
     ''' <summary>
@@ -82,6 +85,9 @@ Public Class FormSerialSettings
 
         ' Apply RTS
         FormMain.SerialComm.RtsEnable = cboxRTS.Checked
+
+        ' Apply DTR
+        FormMain.SerialComm.DtrEnable = cboxDTR.Checked
 
         ' Close this form
         Me.Close()

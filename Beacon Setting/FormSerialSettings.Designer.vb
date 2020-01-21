@@ -33,6 +33,7 @@ Partial Class FormSerialSettings
         Me.btApply = New System.Windows.Forms.Button()
         Me.btCancel = New System.Windows.Forms.Button()
         Me.cboxRTS = New System.Windows.Forms.CheckBox()
+        Me.cboxDTR = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'labBaudRate
@@ -150,7 +151,7 @@ Partial Class FormSerialSettings
         Me.btApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btApply.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btApply.ForeColor = System.Drawing.Color.White
-        Me.btApply.Location = New System.Drawing.Point(116, 197)
+        Me.btApply.Location = New System.Drawing.Point(116, 225)
         Me.btApply.Margin = New System.Windows.Forms.Padding(2)
         Me.btApply.Name = "btApply"
         Me.btApply.Size = New System.Drawing.Size(83, 26)
@@ -165,7 +166,7 @@ Partial Class FormSerialSettings
         Me.btCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btCancel.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btCancel.ForeColor = System.Drawing.Color.White
-        Me.btCancel.Location = New System.Drawing.Point(14, 197)
+        Me.btCancel.Location = New System.Drawing.Point(14, 225)
         Me.btCancel.Margin = New System.Windows.Forms.Padding(2)
         Me.btCancel.Name = "btCancel"
         Me.btCancel.Size = New System.Drawing.Size(83, 26)
@@ -185,12 +186,25 @@ Partial Class FormSerialSettings
         Me.cboxRTS.Text = "Request to Send (RTS)"
         Me.cboxRTS.UseVisualStyleBackColor = True
         '
+        'cboxDTR
+        '
+        Me.cboxDTR.AutoSize = True
+        Me.cboxDTR.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboxDTR.Location = New System.Drawing.Point(18, 189)
+        Me.cboxDTR.Margin = New System.Windows.Forms.Padding(2)
+        Me.cboxDTR.Name = "cboxDTR"
+        Me.cboxDTR.Size = New System.Drawing.Size(159, 18)
+        Me.cboxDTR.TabIndex = 21
+        Me.cboxDTR.Text = "Data Terminal Ready"
+        Me.cboxDTR.UseVisualStyleBackColor = True
+        '
         'FormSerialSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
-        Me.ClientSize = New System.Drawing.Size(211, 237)
+        Me.ClientSize = New System.Drawing.Size(211, 266)
+        Me.Controls.Add(Me.cboxDTR)
         Me.Controls.Add(Me.cboxRTS)
         Me.Controls.Add(Me.btCancel)
         Me.Controls.Add(Me.btApply)
@@ -223,4 +237,5 @@ Partial Class FormSerialSettings
     Friend WithEvents btApply As Button
     Friend WithEvents btCancel As Button
     Friend WithEvents cboxRTS As CheckBox
+    Friend WithEvents cboxDTR As CheckBox
 End Class
