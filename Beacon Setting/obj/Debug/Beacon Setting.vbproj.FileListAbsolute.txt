@@ -1,0 +1,16 @@
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Beacon Setting.exe.config
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Beacon Setting.exe
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Beacon Setting.pdb
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Beacon Setting.xml
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.vbprojAssemblyReference.cache
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\BeaconSetting.FormMain.resources
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\BeaconSetting.FormSaveDevice.resources
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\BeaconSetting.FormSerialSettings.resources
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\BeaconSetting.Resources.resources
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.vbproj.GenerateResource.cache
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.vbproj.CopyComplete
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.exe
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.xml
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.pdb

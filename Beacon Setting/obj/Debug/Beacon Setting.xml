@@ -1,0 +1,385 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Beacon Setting
+</name>
+</assembly>
+<members>
+<member name="T:BeaconSetting.My.Resources.Resources">
+<summary>
+  Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
+</summary>
+</member>
+<member name="P:BeaconSetting.My.Resources.Resources.ResourceManager">
+<summary>
+  Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
+</summary>
+</member>
+<member name="P:BeaconSetting.My.Resources.Resources.Culture">
+<summary>
+  Remplace la propriété CurrentUICulture du thread actuel pour toutes
+  les recherches de ressources à l'aide de cette classe de ressource fortement typée.
+</summary>
+</member>
+<member name="P:BeaconSetting.My.Resources.Resources.connected">
+<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:BeaconSetting.My.Resources.Resources.disconnected">
+<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:BeaconSetting.My.Resources.Resources.parametre">
+<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="T:BeaconSetting.FormMain">
+ <summary>
+ Main form
+ </summary>
+</member>
+<member name="F:BeaconSetting.FormMain.programName">
+ <summary>
+ Name of the program
+ </summary>
+</member>
+<member name="F:BeaconSetting.FormMain.version">
+ <summary>
+ current version
+ </summary>
+</member>
+<member name="F:BeaconSetting.FormMain.selectedBeacon">
+ <summary>
+ Selected beacon for settings
+ </summary>
+</member>
+<member name="T:BeaconSetting.FormMain.BEACONCOLOR">
+ <summary>
+ Enum for beacon's color
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.FormMain_Load(System.Object,System.EventArgs)">
+ <summary>
+ First instructions of the program
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.FormMain_KeyDown(System.Object,System.Windows.Forms.KeyEventArgs)">
+ <summary>
+ Keydown event
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.FormMain_Closing(System.Object,System.ComponentModel.CancelEventArgs)">
+ <summary>
+ When the program is closing
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.LoadCache">
+ <summary>
+ Load stored parameters in cache file
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.SaveCache">
+ <summary>
+ Save values of the form in the cache file
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.JsonBuilderLoRa">
+ <summary>
+ Build Json string for LoRaWAN configuration
+ </summary>
+ <returns>Json string to send</returns>
+</member>
+<member name="M:BeaconSetting.FormMain.JsonBuilderLights">
+ <summary>
+ Build Json string for Lights configuration
+ </summary>
+ <returns>Json string to send through serial comm</returns>
+</member>
+<member name="M:BeaconSetting.FormMain.GetStringColor(System.Windows.Forms.Button)">
+ <summary>
+ Get string color from button.backcolor
+ </summary>
+ <param name="_bt">Button for beacon settings</param>
+ <returns>String color for json string</returns>
+</member>
+<member name="M:BeaconSetting.FormMain.IsValideJson(System.String)">
+ <summary>
+ Check if it's a valide Json raw string
+ </summary>
+ <param name="_rawJson"></param>
+ <returns></returns>
+</member>
+<member name="M:BeaconSetting.FormMain.WriteResponse(System.String)">
+ <summary>
+ Delegate method for serialcomm thread
+ Write log in the serial console
+ </summary>
+ <param name="response">Response to write</param>
+</member>
+<member name="M:BeaconSetting.FormMain.SendMessage(System.String)">
+ <summary> 
+ Send data through serial communication
+ </summary>
+ <param name="message">message data</param>
+</member>
+<member name="M:BeaconSetting.FormMain.SerialComm_DataReceived(System.Object,System.IO.Ports.SerialDataReceivedEventArgs)">
+ <summary>
+ On data receive
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtWrite_Click(System.Object,System.EventArgs)">
+ <summary>
+ Try to write device information on the device through the COM Port
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtHardwareWrite_Click(System.Object,System.EventArgs)">
+ <summary>
+ Write lights configuration through serial communication in Json format
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.SerialComm_ErrorReceived(System.Object,System.IO.Ports.SerialErrorReceivedEventArgs)">
+ <summary>
+ Event called when there's an error with the serial communication
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+</member>
+<member name="M:BeaconSetting.FormMain.BtSerialConf_Click(System.Object,System.EventArgs)">
+ <summary>
+ Open the serial port settings Form
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtClearMessages_Click(System.Object,System.EventArgs)">
+ <summary>
+ Button to clear serial log
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtRefresh_Click(System.Object,System.EventArgs)">
+ <summary>
+ Refresh the COM Port list
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtConnexion_Click(System.Object,System.EventArgs)">
+ <summary>
+ Try to open a serial communication
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtSaveDevice_Click(System.Object,System.EventArgs)">
+ <summary>
+ Open the save device form
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.IsDeviceEUI(System.String)">
+ <summary>
+ Check if it's a correct Device EUI
+ Regex Operation
+ </summary>
+ <param name="text">Device EUI</param>
+ <returns></returns>
+</member>
+<member name="M:BeaconSetting.FormMain.IsAppKey(System.String)">
+ <summary>
+ Check if it's a correct AppKey
+ Regex Operation
+ </summary>
+ <param name="text">AppKey</param>
+ <returns></returns>
+</member>
+<member name="M:BeaconSetting.FormMain.IsAppEUI(System.String)">
+ <summary>
+ Check if it's a correct AppEUI
+ Regex Operation
+ </summary>
+ <param name="text">AppEUI</param>
+ <returns></returns>
+</member>
+<member name="M:BeaconSetting.FormMain.CheckBeaconsSettings">
+ <summary>
+ Check if all beacons have a different color assigned
+ </summary>
+ <returns>true if all colors are differents else return false</returns>
+</member>
+<member name="M:BeaconSetting.FormMain.CboxColor_SelectedIndexChanged(System.Object,System.EventArgs)">
+ <summary>
+ Change the color of the current selected beacon
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BeaconSelectionChange(System.Object,System.EventArgs)">
+ <summary>
+ Change the current selected beacon
+ Event : On click on the beacon button
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.ResetBeacon">
+ <summary>
+ Reset all border from beacons
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.NumNbrBeacons_ValueChanged(System.Object,System.EventArgs)">
+ <summary>
+ Change the available number of beacons
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtMenuHardware_Click(System.Object,System.EventArgs)">
+ <summary>
+ User clicked on Hardware Settings's button
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtMenuLora_Click(System.Object,System.EventArgs)">
+ <summary>
+ User clicked on LoraWAN Settings's button
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtMenuCommunication_Click(System.Object,System.EventArgs)">
+ <summary>
+ User clicked on Communication's button
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtMenuAbout_Click(System.Object,System.EventArgs)">
+ <summary>
+ User clicked on About's button
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtMenuExit_Click(System.Object,System.EventArgs)">
+ <summary>
+ User clicked on Exit's button
+ Close this application
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.ShowPanelInFront(System.Windows.Forms.Panel,System.Windows.Forms.Button)">
+ <summary>
+ Change the front panel
+ </summary>
+ <param name="panelToChange">Panel to send to front</param>
+ <param name="btToChange">Button to change color</param>
+</member>
+<member name="M:BeaconSetting.FormMain.TimerEffect_Tick(System.Object,System.EventArgs)">
+ <summary>
+ Timer for special color effect
+ </summary>
+</member>
+<member name="T:BeaconSetting.FormSaveDevice">
+ <summary>
+ Form for saving device settings
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormSaveDevice.BtCancel_Click(System.Object,System.EventArgs)">
+ <summary>
+ Close this form without change
+ </summary>
+</member>
+<member name="T:BeaconSetting.FormSerialSettings">
+ <summary>
+ Form for serial communication settings
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormSerialSettings.FormSerialSettings_Load(System.Object,System.EventArgs)">
+ <summary>
+ Clear and reset all fields for communication setting
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormSerialSettings.BtCancel_Click(System.Object,System.EventArgs)">
+ <summary>
+ Close this form without change settings
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormSerialSettings.BtApply_Click(System.Object,System.EventArgs)">
+ <summary>
+ Apply settings to the FormMain SerialPort
+ </summary>
+</member>
+<member name="T:BeaconSetting.ParameterFileReader">
+ <summary>
+ Permet d'intéragir avec un fichier de paramètres
+ </summary>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.ReadFile(System.String,System.Boolean)">
+ <summary>
+ Lit le fichier contenant les paramètres et les récupère dans parameter_table
+ </summary>
+ <param name="path">Chemin d'accès au fichier</param>
+ <param name="clearparameters">true si il faut supprimer les paramètres actuels</param>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.ResetParameter">
+ <summary>
+ Réinitialise la liste des paramètres
+ </summary>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.ParameterCount">
+ <summary>
+ Retourne le nombre de paramètres
+ </summary>
+ <returns>Nombre de paramètre(s) enregistré(s)</returns>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.SetParameter(System.String,System.String)">
+ <summary>
+ Modifie le paramètre avec la valeur
+ </summary>
+ <param name="name">Nom du paramètre à modifier</param>
+ <param name="value">Valeur</param>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.WriteFile(System.String)">
+ <summary>
+ Ecrit dans le fichier tous les paramètres enregistrés
+ </summary>
+ <param name="path">Chemin d'accès au fichier</param>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.AddParameter(System.String,System.String)">
+ <summary>
+ Ajouter un paramètre avec sa valeur
+ </summary>
+ <param name="name">Nom du paramètre</param>
+ <param name="value">Valeur du paramètre</param>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.DeleteParameter(System.String)">
+ <summary>
+ Supprime un paramètre
+ </summary>
+ <param name="name">nom du paramètre</param>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.Exist(System.String)">
+ <summary>
+ Retourne vrai si le paramètre existe
+ </summary>
+ <param name="name">Nom du paramètre</param>
+ <returns>True si le paramètre existe sinon retourne false </returns>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.GetParameter(System.String)">
+ <summary>
+ Récupère la valeur d'un paramètre
+ </summary>
+ <param name="name">nom du paramètre</param>
+ <returns>Valeur du paramètre</returns>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.GetBoolParameter(System.String,System.Boolean)">
+ <summary>
+ Récupère la valeur d'un paramètre au format Boolean
+ </summary>
+ <param name="name">Nom du paramètre</param>
+ <param name="defaultparameter">Paramètre retourné si le paramètre n'existe pas ou qu'une erreur se produise</param>
+ <returns></returns>
+</member>
+<member name="M:BeaconSetting.ParameterFileReader.GetIntParameter(System.String,System.Int32)">
+ <summary>
+ Récupère la valeur d'un paramètre au format integer
+ </summary>
+ <param name="name">Nom du paramètre</param>
+ <param name="defaultparameter">Paramètre retourné en cas d'erreur ou si le paramètre n'existe pas</param>
+ <returns></returns>
+</member>
+<member name="T:BeaconSetting.ParameterFileReader.ParameterRelation">
+ <summary>
+ Relation entre un nom et une valeur
+ </summary>
+</member>
+<member name="T:BeaconSetting.StructDevice">
+ <summary>
+ Device structure
+ </summary>
+</member>
+</members>
+</doc>
