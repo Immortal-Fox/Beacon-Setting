@@ -67,9 +67,6 @@ Public Class FormMain
     Private Const JSN_COLOR_WHITE As String = "White"
     Private Const JSN_POSITION As String = "Position"
 
-    ' String constants for serial command
-    'Private Const CMD_GETDEVICEEUI As String = "GetDeviceEUI"
-
     ' Const for cache parameters
     Private Const PRM_DEVICE_EUI As String = "param_eui"
     Private Const PRM_APPKEY As String = "param_appkey"
@@ -117,9 +114,6 @@ Public Class FormMain
 
     ' Cache file manager
     Private parameterFile As ParameterFileReader
-
-    ' Culture
-    'Private ReadOnly frCulture As CultureInfo = CultureInfo.CreateSpecificCulture("fr-FR")
 
     ''' <summary>
     ''' Enum for beacon's color
@@ -835,9 +829,13 @@ Public Class FormMain
     ''' </summary>
     Private Sub NumNbrBeacons_ValueChanged(sender As Object, e As EventArgs) Handles numNbrBeacons.ValueChanged
         btBeacon5.Visible = CBool(IIf(numNbrBeacons.Value >= 5, True, False))
+        If Not btBeacon5.Visible Then btBeacon5.BackColor = Color.Transparent
         btBeacon4.Visible = CBool(IIf(numNbrBeacons.Value >= 4, True, False))
+        If Not btBeacon4.Visible Then btBeacon4.BackColor = Color.Transparent
         btBeacon3.Visible = CBool(IIf(numNbrBeacons.Value >= 3, True, False))
+        If Not btBeacon3.Visible Then btBeacon3.BackColor = Color.Transparent
         btBeacon2.Visible = CBool(IIf(numNbrBeacons.Value >= 2, True, False))
+        If Not btBeacon2.Visible Then btBeacon2.BackColor = Color.Transparent
     End Sub
 
 #End Region
@@ -895,6 +893,7 @@ Public Class FormMain
     ''' <param name="panelToChange">Panel to send to front</param>
     ''' <param name="btToChange">Button to change color</param>
     Public Sub ShowPanelInFront(ByVal panelToChange As Panel, ByVal btToChange As Button)
+        Debug.Assert(Not IsNothing(panelToChange))
         panelLoraWAN.Visible = False
         panelSerial.Visible = False
         panelHardware.Visible = False
