@@ -86,7 +86,7 @@ Public Class FormMain
     ' Const for error message
     Private Const ERR_NOTCONNECTED As String = "Error : Not connected to serial port..."
     Private Const ERR_DISCONNECTED As String = "Error : Disconnected..."
-    Private Const ERR_BEACONSCOLOR As String = "Error : No more than one different color per beacon..."
+    Private Const ERR_BEACONSCOLOR As String = "Error : No more than one different color per beacon or check if all beacons have a color..."
     Private Const ERR_INCORRECTDEVICEEUI As String = "Error : Incorrect device EUI..."
     Private Const ERR_INCORRECTAPPKEY As String = "Error : Incorrect AppKey..."
     Private Const ERR_INCORRECTAPPEUI As String = "Error : Incorrect AppEUI..."
@@ -503,13 +503,14 @@ Public Class FormMain
 
                 ' Device EUI
 
-                If Not IsDeviceEUI(txtbEUI.Text) Then
-                    txtbEUI.BackColor = colorError
-                    MsgBox(ERR_INCORRECTDEVICEEUI)
-                    Exit Sub
-                Else
-                    txtbEUI.BackColor = colorOk
-                End If
+                ' TO REMOVE
+                'If Not IsDeviceEUI(txtbEUI.Text) Then
+                '    txtbEUI.BackColor = colorError
+                '    MsgBox(ERR_INCORRECTDEVICEEUI)
+                '    Exit Sub
+                'Else
+                '    txtbEUI.BackColor = colorOk
+                'End If
 
                 ' AppKey
 
@@ -762,6 +763,9 @@ Public Class FormMain
             If listCheck.Contains(btBeacon5.BackColor) Then
                 Return False
             End If
+        End If
+        If listCheck.Contains(Color.Transparent) Then
+            Return False
         End If
 
         Return True
