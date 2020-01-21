@@ -485,15 +485,23 @@ Public Class FormMain
             ' TODO : What to do when Receiving Device EUI data
             ' First we have to parse the raw json string
             Dim parsedJson As JObject = JObject.Parse(readedLine)
-            If Not IsNothing(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)) Then
-                Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving DeviceEUI : " & CStr(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)))
+
+            If Not IsNothing(parsedJson.GetValue(JSN_TYPE)) Then
+                If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
+                    Dim devEUIValue As JArray = JArray.Parse(parsedJson.GetValue(JSN_INFOS).ToString)
+                    MsgBox(devEUIValue.ToString)
+
+                End If
             End If
+
+
+
 
         Else
             ' We just wrote the received command in the serial console (normaly it's an "ok" string)
             Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
         End If
-
+        Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
     End Sub
 
     ''' <summary>
@@ -928,6 +936,12 @@ Public Class FormMain
             If BackColor.R + effectRatio = Byte.MaxValue Then
                 effectStep = 1
             End If
+        End If
+    End Sub
+
+    Private Sub ListMessages_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listMessages.DoubleClick
+        If Not IsNothing(listMessages.SelectedItem) Then
+            MsgBox(listMessages.SelectedItem.ToString)
         End If
     End Sub
 #End Region
