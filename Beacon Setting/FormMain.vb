@@ -137,6 +137,9 @@ Public Class FormMain
         Me.Text = programName & " v" & version
         Me.Size = New Size(500, 400)
 
+        'Default config for Serial comm
+        SerialComm.BaudRate = 115200
+
         ' Ordering Panel
         panelHardware.Dock = DockStyle.Fill
         panelSerial.Dock = DockStyle.Fill
@@ -477,19 +480,19 @@ Public Class FormMain
         Dim readedLine As String = SerialComm.ReadLine()
         Dim msd As DWriteResponse = AddressOf Me.WriteResponse
 
-        ' If it's a valide json string
-        If IsValideJson(readedLine) Then
-            ' TODO : What to do when Receiving Device EUI data
-            ' First we have to parse the raw json string
-            Dim parsedJson As JObject = JObject.Parse(readedLine)
-            If Not IsNothing(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)) Then
-                Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving DeviceEUI : " & CStr(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)))
-            End If
+        '' If it's a valide json string
+        'If IsValideJson(readedLine) Then
+        '    ' TODO : What to do when Receiving Device EUI data
+        '    ' First we have to parse the raw json string
+        '    Dim parsedJson As JObject = JObject.Parse(readedLine)
+        '    If Not IsNothing(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)) Then
+        '        Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving DeviceEUI : " & CStr(parsedJson.GetValue("DeviceEUI", StringComparison.CurrentCulture)))
+        '    End If
 
-        Else
-            ' We just wrote the received command in the serial console (normaly it's an "ok" string)
-            Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
-        End If
+        'Else
+        '    ' We just wrote the received command in the serial console (normaly it's an "ok" string)
+        '    Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
+        'End If
 
     End Sub
 
@@ -549,7 +552,7 @@ Public Class FormMain
         Try
             If CheckBeaconsSettings() Then
                 If SerialComm.IsOpen Then
-                    SendMessage(JsonBuilderLights)
+                    SendMessage(JsonBuilderLights() & vbCrLf)
                 Else
                     MsgBox(ERR_NOTCONNECTED)
                 End If

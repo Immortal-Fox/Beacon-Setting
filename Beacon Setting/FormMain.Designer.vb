@@ -405,6 +405,9 @@ Partial Class FormMain
         '
         'SerialComm
         '
+        Me.SerialComm.BaudRate = 115200
+        Me.SerialComm.DtrEnable = True
+        Me.SerialComm.PortName = "COM6"
         '
         'btSerialConf
         '
