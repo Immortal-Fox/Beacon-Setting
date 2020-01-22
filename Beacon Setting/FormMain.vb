@@ -82,6 +82,12 @@ Public Class FormMain
     ' Const for string ressources
     Private Const STR_CONNECTED As String = "Connected"
     Private Const STR_DISCONNECTED As String = "Disconnected"
+    Private Const STR_NOTCONNECTED As String = "Not connected..."
+    Private Const STR_SENDING As String = "Sending : "
+    Private Const STR_RECEIVING As String = "Receiving : "
+
+    ' Success messages
+    Private Const SUC_SENDINGOK As String = "Sending data success"
 
     ' Const for error message
     Private Const ERR_NOTCONNECTED As String = "Error : Not connected to serial port..."
@@ -96,11 +102,12 @@ Public Class FormMain
     Private Const ERR_CLOSECOMMUNICATION As String = "Error : While closing serial communication port..."
     Private Const ERR_WRITELORAWAN As String = "Error : While writting LoRaWAN settings..."
     Private Const ERR_WRITELIGHTS As String = "Error : While writting lights settings..."
+    Private Const ERR_NOMATCHINGDATA As String = "Error : While writting data on the device"
 
     ' Regular Expressions for validating fields
-    Private ReadOnly textRegexDeviceEUI As String = "^([a-fA-F0-9]{8})$"    ' Validate HEX 16 Bytes (8 chars)
-    Private ReadOnly textRegexAppKey As String = "^([a-fA-F0-9]{16})$"      ' Validate HEX 32 Bytes (16 chars)
-    Private ReadOnly textRegexAppEUI As String = "^([a-fA-F0-9]{8})$"       ' Validate HEX 16 Bytes (8 chars)
+    Private ReadOnly textRegexDeviceEUI As String = "^([a-fA-F0-9]{16})$"    ' Validate HEX 16 Bytes (8 chars)
+    Private ReadOnly textRegexAppKey As String = "^([a-fA-F0-9]{32})$"      ' Validate HEX 32 Bytes (16 chars)
+    Private ReadOnly textRegexAppEUI As String = "^([a-fA-F0-9]{16})$"       ' Validate HEX 16 Bytes (8 chars)
 
     ' Color for Fields validation
     Private ReadOnly colorOk As Color = Color.GreenYellow
@@ -114,6 +121,10 @@ Public Class FormMain
 
     ' Cache file manager
     Private parameterFile As ParameterFileReader
+
+    ' Serial variables
+    Private isWaitingResponseFromDevice As Boolean = False
+    Private lastSendingString As String
 
     ''' <summary>
     ''' Enum for beacon's color
@@ -466,8 +477,10 @@ Public Class FormMain
     ''' <param name="message">message data</param>
     Public Sub SendMessage(ByVal message As String)
         If SerialComm.IsOpen Then
+            lastSendingString = message
             SerialComm.WriteLine(message)
-            listMessages.Items.Add("Sending : '" & message & "'")
+            listMessages.Items.Add("Sending : " & message)
+            Debug.Print(message)
         Else
             listMessages.Items.Add("Not connected...")
         End If
@@ -480,27 +493,79 @@ Public Class FormMain
         Dim readedLine As String = SerialComm.ReadLine()
         Dim msd As DWriteResponse = AddressOf Me.WriteResponse
 
-        ' If it's a valide json string
-        If IsValideJson(readedLine) Then
-            ' TODO : What to do when Receiving Device EUI data
-            ' First we have to parse the raw json string
-            Dim parsedJson As JObject = JObject.Parse(readedLine)
+        ' If we don't wait for a response from the device after a writting operation
+        If Not isWaitingResponseFromDevice Then
+            ' If it's a valide json string
+            If IsValideJson(readedLine) Then
 
-            If Not IsNothing(parsedJson.GetValue(JSN_TYPE)) Then
-                If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
-                    Dim devEUIValue As JArray = JArray.Parse(parsedJson.GetValue(JSN_INFOS).ToString)
-                    MsgBox(devEUIValue.ToString)
+                ' First we have to parse the raw json string
+                Dim parsedJson As JObject = JObject.Parse(readedLine)
 
+                ' If this json contain a "Type" field
+                If Not IsNothing(parsedJson.GetValue(JSN_TYPE)) Then
+
+                    ' IF it's a Json for LoRa Hardware
+                    If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
+
+                        Dim data As List(Of JToken) = parsedJson.Children().ToList
+
+                        For Each item As JProperty In data
+                            item.CreateReader()
+                            Select Case item.Name
+                                Case JSN_INFOS
+                                    For Each msg As JObject In item.Values
+                                        Dim deveui As String = msg(JSN_DEVEUI).ToString
+                                        Dim appkey As String = msg(JSN_APPKEY).ToString
+                                        Dim appeui As String = msg(JSN_APPEUI).ToString
+
+                                        txtbAppEUI.Text = appeui
+                                        txtbAppKey.Text = appkey
+                                        txtbEUI.Text = deveui
+                                    Next
+                            End Select
+                        Next
+                        ' if it's a json for lights settings
+                    ElseIf parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LIGHTS Then
+
+                        Dim data As List(Of JToken) = parsedJson.Children().ToList
+
+                        For Each item As JProperty In data
+                            item.CreateReader()
+                            Select Case item.Name
+                                Case JSN_INFOS ' "Infos"
+                                    For Each msg As JObject In item.Values
+                                        If msg.ContainsKey(JSN_COLOR) And msg.ContainsKey(JSN_POSITION) Then
+                                            Select Case CDbl(msg(JSN_POSITION)) ' "Position"
+                                                Case 1  ' Position 1
+                                                    btBeacon1.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                Case 2  ' Position 2
+                                                    btBeacon2.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                Case 3  ' Position 3
+                                                    btBeacon3.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                Case 4  ' Position 4
+                                                    btBeacon4.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                Case 5  ' Position 5
+                                                    btBeacon5.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                            End Select
+                                        End If
+                                    Next
+                            End Select
+                        Next
+                    End If
                 End If
             End If
-
-
-
-
         Else
-            ' We just wrote the received command in the serial console (normaly it's an "ok" string)
-            Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
+            If lastSendingString & vbCr = readedLine Then
+                MsgBox(SUC_SENDINGOK)
+            Else
+                MsgBox(ERR_NOMATCHINGDATA)
+            End If
+            ' Clear variables
+            isWaitingResponseFromDevice = False
+            lastSendingString = Nothing
         End If
+
+        ' Print the received message in the serial console
         Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
     End Sub
 
@@ -532,6 +597,7 @@ Public Class FormMain
                 End If
 
                 ' Send message through serial comm
+                isWaitingResponseFromDevice = True
                 SendMessage(JsonBuilderLoRa())
             Else
                 MsgBox(ERR_NOTCONNECTED)
@@ -548,7 +614,8 @@ Public Class FormMain
         Try
             If CheckBeaconsSettings() Then
                 If SerialComm.IsOpen Then
-                    SendMessage(JsonBuilderLights() & vbCrLf)
+                    isWaitingResponseFromDevice = True
+                    SendMessage(JsonBuilderLights())
                 Else
                     MsgBox(ERR_NOTCONNECTED)
                 End If
@@ -840,6 +907,21 @@ Public Class FormMain
         btBeacon2.Visible = CBool(IIf(numNbrBeacons.Value >= 2, True, False))
         If Not btBeacon2.Visible Then btBeacon2.BackColor = Color.Transparent
     End Sub
+
+    Private Function GetBeaconColorJSON(ByVal textColorValue As String) As Color
+        If textColorValue = JSN_COLOR_BLUE Then
+            Return colorBlue
+        ElseIf textColorValue = JSN_COLOR_GREEN Then
+            Return colorGreen
+        ElseIf textColorValue = JSN_COLOR_ORANGE Then
+            Return colorOrange
+        ElseIf textColorValue = JSN_COLOR_RED Then
+            Return colorRed
+        ElseIf textColorValue = JSN_COLOR_WHITE Then
+            Return colorWhite
+        End If
+        Return Color.Transparent
+    End Function
 
 #End Region
 

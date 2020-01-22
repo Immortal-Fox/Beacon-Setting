@@ -283,7 +283,7 @@ Partial Class FormMain
         Me.btSaveDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btSaveDevice.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btSaveDevice.ForeColor = System.Drawing.Color.White
-        Me.btSaveDevice.Location = New System.Drawing.Point(153, 281)
+        Me.btSaveDevice.Location = New System.Drawing.Point(199, 308)
         Me.btSaveDevice.Margin = New System.Windows.Forms.Padding(2)
         Me.btSaveDevice.Name = "btSaveDevice"
         Me.btSaveDevice.Size = New System.Drawing.Size(109, 31)
@@ -298,7 +298,7 @@ Partial Class FormMain
         Me.btWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btWrite.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btWrite.ForeColor = System.Drawing.Color.White
-        Me.btWrite.Location = New System.Drawing.Point(191, 240)
+        Me.btWrite.Location = New System.Drawing.Point(237, 243)
         Me.btWrite.Margin = New System.Windows.Forms.Padding(2)
         Me.btWrite.Name = "btWrite"
         Me.btWrite.Size = New System.Drawing.Size(71, 31)
@@ -313,10 +313,10 @@ Partial Class FormMain
         Me.btReadEUI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btReadEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btReadEUI.ForeColor = System.Drawing.Color.White
-        Me.btReadEUI.Location = New System.Drawing.Point(42, 240)
+        Me.btReadEUI.Location = New System.Drawing.Point(28, 243)
         Me.btReadEUI.Margin = New System.Windows.Forms.Padding(2)
         Me.btReadEUI.Name = "btReadEUI"
-        Me.btReadEUI.Size = New System.Drawing.Size(145, 27)
+        Me.btReadEUI.Size = New System.Drawing.Size(145, 31)
         Me.btReadEUI.TabIndex = 8
         Me.btReadEUI.Text = "Read Device EUI"
         Me.btReadEUI.UseVisualStyleBackColor = False
@@ -324,11 +324,11 @@ Partial Class FormMain
         'txtbAppEUI
         '
         Me.txtbAppEUI.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtbAppEUI.Font = New System.Drawing.Font("Consolas", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtbAppEUI.Location = New System.Drawing.Point(54, 197)
+        Me.txtbAppEUI.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbAppEUI.Location = New System.Drawing.Point(28, 197)
         Me.txtbAppEUI.Margin = New System.Windows.Forms.Padding(2)
         Me.txtbAppEUI.Name = "txtbAppEUI"
-        Me.txtbAppEUI.Size = New System.Drawing.Size(208, 16)
+        Me.txtbAppEUI.Size = New System.Drawing.Size(280, 18)
         Me.txtbAppEUI.TabIndex = 7
         Me.txtbAppEUI.Text = "0x000000000"
         '
@@ -336,7 +336,7 @@ Partial Class FormMain
         '
         Me.labAppEUI.AutoSize = True
         Me.labAppEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labAppEUI.Location = New System.Drawing.Point(57, 180)
+        Me.labAppEUI.Location = New System.Drawing.Point(31, 180)
         Me.labAppEUI.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labAppEUI.Name = "labAppEUI"
         Me.labAppEUI.Size = New System.Drawing.Size(49, 14)
@@ -346,11 +346,11 @@ Partial Class FormMain
         'txtbAppKey
         '
         Me.txtbAppKey.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtbAppKey.Font = New System.Drawing.Font("Consolas", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtbAppKey.Location = New System.Drawing.Point(54, 130)
+        Me.txtbAppKey.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbAppKey.Location = New System.Drawing.Point(28, 130)
         Me.txtbAppKey.Margin = New System.Windows.Forms.Padding(2)
         Me.txtbAppKey.Name = "txtbAppKey"
-        Me.txtbAppKey.Size = New System.Drawing.Size(208, 16)
+        Me.txtbAppKey.Size = New System.Drawing.Size(280, 18)
         Me.txtbAppKey.TabIndex = 6
         Me.txtbAppKey.Text = "0x000000000"
         '
@@ -358,7 +358,7 @@ Partial Class FormMain
         '
         Me.labAppKey.AutoSize = True
         Me.labAppKey.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labAppKey.Location = New System.Drawing.Point(57, 113)
+        Me.labAppKey.Location = New System.Drawing.Point(31, 113)
         Me.labAppKey.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labAppKey.Name = "labAppKey"
         Me.labAppKey.Size = New System.Drawing.Size(49, 14)
@@ -369,12 +369,12 @@ Partial Class FormMain
         '
         Me.txtbEUI.BackColor = System.Drawing.Color.White
         Me.txtbEUI.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtbEUI.Font = New System.Drawing.Font("Consolas", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtbEUI.Location = New System.Drawing.Point(54, 63)
+        Me.txtbEUI.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbEUI.Location = New System.Drawing.Point(28, 63)
         Me.txtbEUI.Margin = New System.Windows.Forms.Padding(2)
         Me.txtbEUI.Name = "txtbEUI"
         Me.txtbEUI.ReadOnly = True
-        Me.txtbEUI.Size = New System.Drawing.Size(208, 16)
+        Me.txtbEUI.Size = New System.Drawing.Size(280, 18)
         Me.txtbEUI.TabIndex = 5
         Me.txtbEUI.Text = "0x000000000"
         '
@@ -382,7 +382,7 @@ Partial Class FormMain
         '
         Me.labEUI.AutoSize = True
         Me.labEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labEUI.Location = New System.Drawing.Point(57, 46)
+        Me.labEUI.Location = New System.Drawing.Point(31, 46)
         Me.labEUI.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labEUI.Name = "labEUI"
         Me.labEUI.Size = New System.Drawing.Size(77, 14)
@@ -437,7 +437,7 @@ Partial Class FormMain
         Me.cboxSerialPort.Location = New System.Drawing.Point(160, 23)
         Me.cboxSerialPort.Margin = New System.Windows.Forms.Padding(2)
         Me.cboxSerialPort.Name = "cboxSerialPort"
-        Me.cboxSerialPort.Size = New System.Drawing.Size(109, 21)
+        Me.cboxSerialPort.Size = New System.Drawing.Size(119, 21)
         Me.cboxSerialPort.TabIndex = 10
         '
         'panelSerial
@@ -521,7 +521,7 @@ Partial Class FormMain
         Me.btConnexion.Location = New System.Drawing.Point(177, 55)
         Me.btConnexion.Margin = New System.Windows.Forms.Padding(2)
         Me.btConnexion.Name = "btConnexion"
-        Me.btConnexion.Size = New System.Drawing.Size(92, 31)
+        Me.btConnexion.Size = New System.Drawing.Size(102, 31)
         Me.btConnexion.TabIndex = 12
         Me.btConnexion.Text = "Connect"
         Me.btConnexion.UseVisualStyleBackColor = False
@@ -785,7 +785,7 @@ Partial Class FormMain
         Me.MaximizeBox = False
         Me.Name = "FormMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "LoRaWan Beacon Config"
+        Me.Text = "Beacon Setting"
         Me.panelHardware.ResumeLayout(False)
         Me.panelHardware.PerformLayout()
         CType(Me.numNbrBeacons, System.ComponentModel.ISupportInitialize).EndInit()
