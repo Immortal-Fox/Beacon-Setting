@@ -105,9 +105,9 @@ Public Class FormMain
     Private Const ERR_NOMATCHINGDATA As String = "Error : While writting data on the device"
 
     ' Regular Expressions for validating fields
-    Private ReadOnly textRegexDeviceEUI As String = "^([a-fA-F0-9]{16})$"    ' Validate HEX 16 Bytes (8 chars)
-    Private ReadOnly textRegexAppKey As String = "^([a-fA-F0-9]{32})$"      ' Validate HEX 32 Bytes (16 chars)
-    Private ReadOnly textRegexAppEUI As String = "^([a-fA-F0-9]{16})$"       ' Validate HEX 16 Bytes (8 chars)
+    Private Const REG_DEVICEEUI As String = "^([a-fA-F0-9]{16})$"    ' Validate HEX 32 Bytes (8 chars)
+    Private Const REG_APPKEY As String = "^([a-fA-F0-9]{32})$"      ' Validate HEX 64 Bytes (16 chars)
+    Private Const REG_APPEUI As String = "^([a-fA-F0-9]{16})$"       ' Validate HEX 32 Bytes (8 chars)
 
     ' Color for Fields validation
     Private ReadOnly colorOk As Color = Color.GreenYellow
@@ -343,6 +343,7 @@ Public Class FormMain
             writer.WritePropertyName(JSN_TYPE)
             writer.WriteValue(JSN_TYPE_LORA)
             writer.WritePropertyName(JSN_INFOS)
+            writer.WriteStartArray()
             writer.WriteStartObject()
             writer.WritePropertyName(JSN_DEVEUI)
             writer.WriteValue(txtbEUI.Text)
@@ -350,6 +351,7 @@ Public Class FormMain
             writer.WriteValue(txtbAppKey.Text)
             writer.WritePropertyName(JSN_APPEUI)
             writer.WriteValue(txtbAppEUI.Text)
+            writer.WriteEndObject()
             writer.WriteEnd()
             writer.WriteEndObject()
         End Using
@@ -501,8 +503,8 @@ Public Class FormMain
                 ' First we have to parse the raw json string
                 Dim parsedJson As JObject = JObject.Parse(readedLine)
 
-                ' If this json contain a "Type" field
-                If Not IsNothing(parsedJson.GetValue(JSN_TYPE)) Then
+                ' If this json contain a "Type" key
+                If parsedJson.ContainsKey(JSN_TYPE) Then
 
                     ' IF it's a Json for LoRa Hardware
                     If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
@@ -767,7 +769,7 @@ Public Class FormMain
     ''' <param name="text">Device EUI</param>
     ''' <returns></returns>
     Public Function IsDeviceEUI(ByVal text As String) As Boolean
-        Dim textControl As New Regex(textRegexDeviceEUI)
+        Dim textControl As New Regex(REG_DEVICEEUI)
         Return textControl.IsMatch(text)
     End Function
 
@@ -778,7 +780,7 @@ Public Class FormMain
     ''' <param name="text">AppKey</param>
     ''' <returns></returns>
     Public Function IsAppKey(ByVal text As String) As Boolean
-        Dim textControl As New Regex(textRegexAppKey)
+        Dim textControl As New Regex(REG_APPKEY)
         Return textControl.IsMatch(text)
     End Function
 
@@ -789,7 +791,7 @@ Public Class FormMain
     ''' <param name="text">AppEUI</param>
     ''' <returns></returns>
     Public Function IsAppEUI(ByVal text As String) As Boolean
-        Dim textControl As New Regex(textRegexAppEUI)
+        Dim textControl As New Regex(REG_APPEUI)
         Return textControl.IsMatch(text)
     End Function
 #End Region
