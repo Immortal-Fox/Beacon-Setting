@@ -555,6 +555,7 @@ Public Class FormMain
                 End If
             End If
         Else
+            Debug.Print(readedLine)
             If lastSendingString & vbCr = readedLine Then
                 MsgBox(SUC_SENDINGOK)
             Else
@@ -598,6 +599,7 @@ Public Class FormMain
 
                 ' Send message through serial comm
                 isWaitingResponseFromDevice = True
+
                 SendMessage(JsonBuilderLoRa())
             Else
                 MsgBox(ERR_NOTCONNECTED)
