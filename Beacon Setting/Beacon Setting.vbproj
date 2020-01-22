@@ -128,7 +128,7 @@
     <Compile Include="FormSerialSettings.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Imported\ParameterFileReader.vb" />
+    <Compile Include="ParameterFileReader.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
