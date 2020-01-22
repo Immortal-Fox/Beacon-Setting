@@ -40,7 +40,7 @@ Partial Class FormMain
         Me.panelLoraWAN = New System.Windows.Forms.Panel()
         Me.btSaveDevice = New System.Windows.Forms.Button()
         Me.btWrite = New System.Windows.Forms.Button()
-        Me.btReadEUI = New System.Windows.Forms.Button()
+        Me.btCopyDeviceEUI = New System.Windows.Forms.Button()
         Me.txtbAppEUI = New System.Windows.Forms.TextBox()
         Me.labAppEUI = New System.Windows.Forms.Label()
         Me.txtbAppKey = New System.Windows.Forms.TextBox()
@@ -261,7 +261,7 @@ Partial Class FormMain
         Me.panelLoraWAN.BackColor = System.Drawing.Color.Silver
         Me.panelLoraWAN.Controls.Add(Me.btSaveDevice)
         Me.panelLoraWAN.Controls.Add(Me.btWrite)
-        Me.panelLoraWAN.Controls.Add(Me.btReadEUI)
+        Me.panelLoraWAN.Controls.Add(Me.btCopyDeviceEUI)
         Me.panelLoraWAN.Controls.Add(Me.txtbAppEUI)
         Me.panelLoraWAN.Controls.Add(Me.labAppEUI)
         Me.panelLoraWAN.Controls.Add(Me.txtbAppKey)
@@ -283,7 +283,7 @@ Partial Class FormMain
         Me.btSaveDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btSaveDevice.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btSaveDevice.ForeColor = System.Drawing.Color.White
-        Me.btSaveDevice.Location = New System.Drawing.Point(199, 308)
+        Me.btSaveDevice.Location = New System.Drawing.Point(28, 285)
         Me.btSaveDevice.Margin = New System.Windows.Forms.Padding(2)
         Me.btSaveDevice.Name = "btSaveDevice"
         Me.btSaveDevice.Size = New System.Drawing.Size(109, 31)
@@ -298,7 +298,7 @@ Partial Class FormMain
         Me.btWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btWrite.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btWrite.ForeColor = System.Drawing.Color.White
-        Me.btWrite.Location = New System.Drawing.Point(237, 243)
+        Me.btWrite.Location = New System.Drawing.Point(237, 285)
         Me.btWrite.Margin = New System.Windows.Forms.Padding(2)
         Me.btWrite.Name = "btWrite"
         Me.btWrite.Size = New System.Drawing.Size(71, 31)
@@ -306,26 +306,26 @@ Partial Class FormMain
         Me.btWrite.Text = "Write"
         Me.btWrite.UseVisualStyleBackColor = False
         '
-        'btReadEUI
+        'btCopyDeviceEUI
         '
-        Me.btReadEUI.BackColor = System.Drawing.Color.Navy
-        Me.btReadEUI.FlatAppearance.BorderSize = 0
-        Me.btReadEUI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btReadEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btReadEUI.ForeColor = System.Drawing.Color.White
-        Me.btReadEUI.Location = New System.Drawing.Point(28, 243)
-        Me.btReadEUI.Margin = New System.Windows.Forms.Padding(2)
-        Me.btReadEUI.Name = "btReadEUI"
-        Me.btReadEUI.Size = New System.Drawing.Size(145, 31)
-        Me.btReadEUI.TabIndex = 8
-        Me.btReadEUI.Text = "Read Device EUI"
-        Me.btReadEUI.UseVisualStyleBackColor = False
+        Me.btCopyDeviceEUI.BackColor = System.Drawing.Color.Navy
+        Me.btCopyDeviceEUI.FlatAppearance.BorderSize = 0
+        Me.btCopyDeviceEUI.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btCopyDeviceEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btCopyDeviceEUI.ForeColor = System.Drawing.Color.White
+        Me.btCopyDeviceEUI.Location = New System.Drawing.Point(163, 100)
+        Me.btCopyDeviceEUI.Margin = New System.Windows.Forms.Padding(2)
+        Me.btCopyDeviceEUI.Name = "btCopyDeviceEUI"
+        Me.btCopyDeviceEUI.Size = New System.Drawing.Size(145, 31)
+        Me.btCopyDeviceEUI.TabIndex = 8
+        Me.btCopyDeviceEUI.Text = "Copy to clipboard"
+        Me.btCopyDeviceEUI.UseVisualStyleBackColor = False
         '
         'txtbAppEUI
         '
         Me.txtbAppEUI.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtbAppEUI.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtbAppEUI.Location = New System.Drawing.Point(28, 197)
+        Me.txtbAppEUI.Location = New System.Drawing.Point(28, 239)
         Me.txtbAppEUI.Margin = New System.Windows.Forms.Padding(2)
         Me.txtbAppEUI.Name = "txtbAppEUI"
         Me.txtbAppEUI.Size = New System.Drawing.Size(280, 18)
@@ -336,7 +336,7 @@ Partial Class FormMain
         '
         Me.labAppEUI.AutoSize = True
         Me.labAppEUI.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labAppEUI.Location = New System.Drawing.Point(31, 180)
+        Me.labAppEUI.Location = New System.Drawing.Point(31, 222)
         Me.labAppEUI.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labAppEUI.Name = "labAppEUI"
         Me.labAppEUI.Size = New System.Drawing.Size(49, 14)
@@ -347,7 +347,7 @@ Partial Class FormMain
         '
         Me.txtbAppKey.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtbAppKey.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtbAppKey.Location = New System.Drawing.Point(28, 130)
+        Me.txtbAppKey.Location = New System.Drawing.Point(28, 172)
         Me.txtbAppKey.Margin = New System.Windows.Forms.Padding(2)
         Me.txtbAppKey.Name = "txtbAppKey"
         Me.txtbAppKey.Size = New System.Drawing.Size(280, 18)
@@ -358,7 +358,7 @@ Partial Class FormMain
         '
         Me.labAppKey.AutoSize = True
         Me.labAppKey.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labAppKey.Location = New System.Drawing.Point(31, 113)
+        Me.labAppKey.Location = New System.Drawing.Point(31, 155)
         Me.labAppKey.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labAppKey.Name = "labAppKey"
         Me.labAppKey.Size = New System.Drawing.Size(49, 14)
@@ -416,7 +416,7 @@ Partial Class FormMain
         Me.btSerialConf.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btSerialConf.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btSerialConf.ForeColor = System.Drawing.Color.White
-        Me.btSerialConf.Location = New System.Drawing.Point(10, 111)
+        Me.btSerialConf.Location = New System.Drawing.Point(13, 121)
         Me.btSerialConf.Margin = New System.Windows.Forms.Padding(2)
         Me.btSerialConf.Name = "btSerialConf"
         Me.btSerialConf.Size = New System.Drawing.Size(123, 31)
@@ -434,7 +434,7 @@ Partial Class FormMain
         Me.cboxSerialPort.IntegralHeight = False
         Me.cboxSerialPort.ItemHeight = 13
         Me.cboxSerialPort.Items.AddRange(New Object() {"COM1", "COM2", "COM4", "etc"})
-        Me.cboxSerialPort.Location = New System.Drawing.Point(160, 23)
+        Me.cboxSerialPort.Location = New System.Drawing.Point(159, 28)
         Me.cboxSerialPort.Margin = New System.Windows.Forms.Padding(2)
         Me.cboxSerialPort.Name = "cboxSerialPort"
         Me.cboxSerialPort.Size = New System.Drawing.Size(119, 21)
@@ -465,7 +465,7 @@ Partial Class FormMain
         Me.btClearMessages.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btClearMessages.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btClearMessages.ForeColor = System.Drawing.Color.White
-        Me.btClearMessages.Location = New System.Drawing.Point(240, 111)
+        Me.btClearMessages.Location = New System.Drawing.Point(239, 121)
         Me.btClearMessages.Margin = New System.Windows.Forms.Padding(2)
         Me.btClearMessages.Name = "btClearMessages"
         Me.btClearMessages.Size = New System.Drawing.Size(83, 31)
@@ -503,7 +503,7 @@ Partial Class FormMain
         Me.btRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btRefresh.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btRefresh.ForeColor = System.Drawing.Color.White
-        Me.btRefresh.Location = New System.Drawing.Point(82, 56)
+        Me.btRefresh.Location = New System.Drawing.Point(81, 56)
         Me.btRefresh.Margin = New System.Windows.Forms.Padding(2)
         Me.btRefresh.Name = "btRefresh"
         Me.btRefresh.Size = New System.Drawing.Size(66, 31)
@@ -518,7 +518,7 @@ Partial Class FormMain
         Me.btConnexion.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btConnexion.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btConnexion.ForeColor = System.Drawing.Color.White
-        Me.btConnexion.Location = New System.Drawing.Point(177, 55)
+        Me.btConnexion.Location = New System.Drawing.Point(176, 56)
         Me.btConnexion.Margin = New System.Windows.Forms.Padding(2)
         Me.btConnexion.Name = "btConnexion"
         Me.btConnexion.Size = New System.Drawing.Size(102, 31)
@@ -530,7 +530,7 @@ Partial Class FormMain
         '
         Me.labPortCOM.AutoSize = True
         Me.labPortCOM.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labPortCOM.Location = New System.Drawing.Point(79, 26)
+        Me.labPortCOM.Location = New System.Drawing.Point(78, 31)
         Me.labPortCOM.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.labPortCOM.Name = "labPortCOM"
         Me.labPortCOM.Size = New System.Drawing.Size(77, 14)
@@ -808,7 +808,7 @@ Partial Class FormMain
     Friend WithEvents labHardware As Label
     Friend WithEvents panelLoraWAN As Panel
     Friend WithEvents btWrite As Button
-    Friend WithEvents btReadEUI As Button
+    Friend WithEvents btCopyDeviceEUI As Button
     Friend WithEvents txtbAppEUI As TextBox
     Friend WithEvents labAppEUI As Label
     Friend WithEvents txtbAppKey As TextBox

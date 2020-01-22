@@ -57,11 +57,6 @@ Beacon Setting
  Selected beacon for settings
  </summary>
 </member>
-<member name="T:BeaconSetting.FormMain.BEACONCOLOR">
- <summary>
- Enum for beacon's color
- </summary>
-</member>
 <member name="M:BeaconSetting.FormMain.FormMain_Load(System.Object,System.EventArgs)">
  <summary>
  First instructions of the program

@@ -126,16 +126,16 @@ Public Class FormMain
     Private isWaitingResponseFromDevice As Boolean = False
     Private lastSendingString As String
 
-    ''' <summary>
-    ''' Enum for beacon's color
-    ''' </summary>
-    Enum BEACONCOLOR
-        GREEN
-        ORANGE
-        RED
-        BLUE
-        WHITE
-    End Enum
+    '''' <summary>
+    '''' Enum for beacon's color
+    '''' </summary>
+    'Enum BEACONCOLOR
+    '    GREEN
+    '    ORANGE
+    '    RED
+    '    BLUE
+    '    WHITE
+    'End Enum
 
     ' Events of the MainFrom
 #Region "Form Events"
@@ -329,7 +329,6 @@ Public Class FormMain
     ' Group of functions for building and validating json
 #Region "Json building and validating"
 
-
     ''' <summary>
     ''' Build Json string for LoRaWAN configuration
     ''' </summary>
@@ -492,84 +491,88 @@ Public Class FormMain
     ''' On data receive
     ''' </summary>
     Private Sub SerialComm_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialComm.DataReceived
-        Dim readedLine As String = SerialComm.ReadLine()
-        Dim msd As DWriteResponse = AddressOf Me.WriteResponse
+        Try
+            Dim readedLine As String = SerialComm.ReadLine()
+            Dim msd As DWriteResponse = AddressOf Me.WriteResponse
 
-        ' If we don't wait for a response from the device after a writting operation
-        If Not isWaitingResponseFromDevice Then
-            ' If it's a valide json string
-            If IsValideJson(readedLine) Then
+            ' If we don't wait for a response from the device after a writting operation
+            If Not isWaitingResponseFromDevice Then
+                ' If it's a valide json string
+                If IsValideJson(readedLine) Then
 
-                ' First we have to parse the raw json string
-                Dim parsedJson As JObject = JObject.Parse(readedLine)
+                    ' First we have to parse the raw json string
+                    Dim parsedJson As JObject = JObject.Parse(readedLine)
 
-                ' If this json contain a "Type" key
-                If parsedJson.ContainsKey(JSN_TYPE) Then
+                    ' If this json contain a "Type" key
+                    If parsedJson.ContainsKey(JSN_TYPE) Then
 
-                    ' IF it's a Json for LoRa Hardware
-                    If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
+                        ' IF it's a Json for LoRa Hardware
+                        If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
 
-                        Dim data As List(Of JToken) = parsedJson.Children().ToList
+                            Dim data As List(Of JToken) = parsedJson.Children().ToList
 
-                        For Each item As JProperty In data
-                            item.CreateReader()
-                            Select Case item.Name
-                                Case JSN_INFOS
-                                    For Each msg As JObject In item.Values
-                                        Dim deveui As String = msg(JSN_DEVEUI).ToString
-                                        Dim appkey As String = msg(JSN_APPKEY).ToString
-                                        Dim appeui As String = msg(JSN_APPEUI).ToString
+                            For Each item As JProperty In data
+                                item.CreateReader()
+                                Select Case item.Name
+                                    Case JSN_INFOS
+                                        For Each msg As JObject In item.Values
+                                            Dim deveui As String = msg(JSN_DEVEUI).ToString
+                                            Dim appkey As String = msg(JSN_APPKEY).ToString
+                                            Dim appeui As String = msg(JSN_APPEUI).ToString
 
-                                        txtbAppEUI.Text = appeui
-                                        txtbAppKey.Text = appkey
-                                        txtbEUI.Text = deveui
-                                    Next
-                            End Select
-                        Next
-                        ' if it's a json for lights settings
-                    ElseIf parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LIGHTS Then
+                                            txtbAppEUI.Text = appeui
+                                            txtbAppKey.Text = appkey
+                                            txtbEUI.Text = deveui
+                                        Next
+                                End Select
+                            Next
+                            ' if it's a json for lights settings
+                        ElseIf parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LIGHTS Then
 
-                        Dim data As List(Of JToken) = parsedJson.Children().ToList
+                            Dim data As List(Of JToken) = parsedJson.Children().ToList
 
-                        For Each item As JProperty In data
-                            item.CreateReader()
-                            Select Case item.Name
-                                Case JSN_INFOS ' "Infos"
-                                    For Each msg As JObject In item.Values
-                                        If msg.ContainsKey(JSN_COLOR) And msg.ContainsKey(JSN_POSITION) Then
-                                            Select Case CDbl(msg(JSN_POSITION)) ' "Position"
-                                                Case 1  ' Position 1
-                                                    btBeacon1.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
-                                                Case 2  ' Position 2
-                                                    btBeacon2.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
-                                                Case 3  ' Position 3
-                                                    btBeacon3.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
-                                                Case 4  ' Position 4
-                                                    btBeacon4.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
-                                                Case 5  ' Position 5
-                                                    btBeacon5.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
-                                            End Select
-                                        End If
-                                    Next
-                            End Select
-                        Next
+                            For Each item As JProperty In data
+                                item.CreateReader()
+                                Select Case item.Name
+                                    Case JSN_INFOS ' "Infos"
+                                        For Each msg As JObject In item.Values
+                                            If msg.ContainsKey(JSN_COLOR) And msg.ContainsKey(JSN_POSITION) Then
+                                                Select Case CDbl(msg(JSN_POSITION)) ' "Position"
+                                                    Case 1  ' Position 1
+                                                        btBeacon1.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                    Case 2  ' Position 2
+                                                        btBeacon2.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                    Case 3  ' Position 3
+                                                        btBeacon3.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                    Case 4  ' Position 4
+                                                        btBeacon4.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                    Case 5  ' Position 5
+                                                        btBeacon5.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                End Select
+                                            End If
+                                        Next
+                                End Select
+                            Next
+                        End If
                     End If
                 End If
-            End If
-        Else
-            Debug.Print(readedLine)
-            If lastSendingString & vbCr = readedLine Then
-                MsgBox(SUC_SENDINGOK)
             Else
-                MsgBox(ERR_NOMATCHINGDATA)
+                Debug.Print(readedLine)
+                If lastSendingString & vbCr = readedLine Then
+                    MsgBox(SUC_SENDINGOK)
+                Else
+                    MsgBox(ERR_NOMATCHINGDATA)
+                End If
+                ' Clear variables
+                isWaitingResponseFromDevice = False
+                lastSendingString = Nothing
             End If
-            ' Clear variables
-            isWaitingResponseFromDevice = False
-            lastSendingString = Nothing
-        End If
 
-        ' Print the received message in the serial console
-        Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
+            ' Print the received message in the serial console
+            Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     ''' <summary>
@@ -700,7 +703,7 @@ Public Class FormMain
                 btConnexion.Text = STR_DISCONNECTED
                 ' Modify buttons
                 btSerialConf.Enabled = False
-                btReadEUI.Enabled = True
+                btCopyDeviceEUI.Enabled = True
                 btWrite.Enabled = True
                 pboxConnected.Image = imageConnected
             End If
@@ -715,9 +718,9 @@ Public Class FormMain
                 pboxConnected.Image = imageDisconnected
                 ' Modifiy buttons
                 btSerialConf.Enabled = True
-                btReadEUI.Enabled = False
+                btCopyDeviceEUI.Enabled = False
                 btWrite.Enabled = False
-            Catch ex As exception
+            Catch ex As Exception
                 MsgBox(ERR_CLOSECOMMUNICATION)
             End Try
         End If
@@ -1029,6 +1032,10 @@ Public Class FormMain
         If Not IsNothing(listMessages.SelectedItem) Then
             MsgBox(listMessages.SelectedItem.ToString)
         End If
+    End Sub
+
+    Private Sub btCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
+        Clipboard.SetText(txtbEUI.Text)
     End Sub
 #End Region
 
