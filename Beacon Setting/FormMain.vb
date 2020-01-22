@@ -126,17 +126,6 @@ Public Class FormMain
     Private isWaitingResponseFromDevice As Boolean = False
     Private lastSendingString As String
 
-    '''' <summary>
-    '''' Enum for beacon's color
-    '''' </summary>
-    'Enum BEACONCOLOR
-    '    GREEN
-    '    ORANGE
-    '    RED
-    '    BLUE
-    '    WHITE
-    'End Enum
-
     ' Events of the MainFrom
 #Region "Form Events"
 
