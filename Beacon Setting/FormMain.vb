@@ -1,4 +1,4 @@
-﻿Option Explicit Off
+﻿Option Explicit On
 Option Strict On
 ' Auteur :      Charmillot Ludovic
 '
@@ -12,7 +12,7 @@ Imports System.Globalization
 ' IO Lib
 Imports System.IO
 Imports System.IO.Ports
-' String Lib
+' Text Lib
 Imports System.Text
 Imports System.Text.RegularExpressions
 ' Json Lib
@@ -23,7 +23,6 @@ Imports Newtonsoft.Json.Linq
 ''' Main form
 ''' </summary>
 Public Class FormMain
-
     ''' <summary>
     ''' Name of the program
     ''' </summary>
@@ -38,14 +37,12 @@ Public Class FormMain
     ''' </summary>
     Private selectedBeacon As Button
 
-    'Protected listBeaconButton As List(Of Button)
-
     ' Default color for beacons
-    Private ReadOnly colorGreen As Color = Color.GreenYellow
-    Private ReadOnly colorOrange As Color = Color.Orange
-    Private ReadOnly colorRed As Color = Color.Red
-    Private ReadOnly colorBlue As Color = Color.Blue
-    Private ReadOnly colorWhite As Color = Color.White
+    Private ReadOnly colorGreen As Color = Color.GreenYellow    ' Green
+    Private ReadOnly colorOrange As Color = Color.Orange        ' Orange
+    Private ReadOnly colorRed As Color = Color.Red              ' Red
+    Private ReadOnly colorBlue As Color = Color.Blue            ' Blue
+    Private ReadOnly colorWhite As Color = Color.White          ' White
 
     ' Images for windows forms design
     Private ReadOnly imageConnected As Image = My.Resources.connected
@@ -93,7 +90,6 @@ Public Class FormMain
     Private Const ERR_NOTCONNECTED As String = "Error : Not connected to serial port..."
     Private Const ERR_DISCONNECTED As String = "Error : Disconnected..."
     Private Const ERR_BEACONSCOLOR As String = "Error : No more than one different color per beacon or check if all beacons have a color..."
-    Private Const ERR_INCORRECTDEVICEEUI As String = "Error : Incorrect device EUI..."
     Private Const ERR_INCORRECTAPPKEY As String = "Error : Incorrect AppKey..."
     Private Const ERR_INCORRECTAPPEUI As String = "Error : Incorrect AppEUI..."
     Private Const ERR_LOADCACHE As String = "Error : While loading cache parameters..."
@@ -103,6 +99,8 @@ Public Class FormMain
     Private Const ERR_WRITELORAWAN As String = "Error : While writting LoRaWAN settings..."
     Private Const ERR_WRITELIGHTS As String = "Error : While writting lights settings..."
     Private Const ERR_NOMATCHINGDATA As String = "Error : While writting data on the device"
+    Private Const ERR_JSONKEYMISSING As String = "Error : Json key property missing"
+    Private Const ERR_NULLARGUMENT As String = "Error : Argument Null Exception"
 
     ' Regular Expressions for validating fields
     Private Const REG_DEVICEEUI As String = "^([a-fA-F0-9]{16})$"    ' Validate HEX 32 Bytes (8 chars)
@@ -172,15 +170,6 @@ Public Class FormMain
             cboxSerialPort.Items.Add(_sp)
             cboxSerialPort.SelectedIndex = 0
         Next
-
-        ' Initialyze Beacons Color and button's list
-        listBeaconButton = New List(Of Button) From {
-            btBeacon1,
-            btBeacon2,
-            btBeacon3,
-            btBeacon4,
-            btBeacon5
-        }
 
         btBeacon1.BackColor = colorWhite
         btBeacon2.BackColor = colorWhite
@@ -280,7 +269,7 @@ Public Class FormMain
             btBeacon5.BackColor = ColorTranslator.FromHtml(CStr(parameterFile.GetParameter(PRM_COLORBEACON5)))
             ' Selected COM port
             cboxSerialPort.SelectedItem = CStr(parameterFile.GetParameter(PRM_SELECTEDCOM))
-        Catch
+        Catch ex As Exception
             MsgBox(ERR_LOADCACHE)
         End Try
 
@@ -435,12 +424,12 @@ Public Class FormMain
     ''' <summary>
     ''' Check if it's a valide Json raw string
     ''' </summary>
-    ''' <param name="_rawJson"></param>
+    ''' <param name="_rawJson">Raw json string</param>
     ''' <returns></returns>
     Private Function IsValideJson(ByVal _rawJson As String) As Boolean
         Try
             JObject.Parse(_rawJson)
-        Catch ex As Exception
+        Catch ex As JsonReaderException
             Return False
         End Try
         Return True
@@ -469,10 +458,10 @@ Public Class FormMain
         If SerialComm.IsOpen Then
             lastSendingString = message
             SerialComm.WriteLine(message)
-            listMessages.Items.Add("Sending : " & message)
+            listMessages.Items.Add(STR_SENDING & " : " & message)
             Debug.Print(message)
         Else
-            listMessages.Items.Add("Not connected...")
+            listMessages.Items.Add(STR_NOTCONNECTED)
         End If
     End Sub
 
@@ -481,12 +470,13 @@ Public Class FormMain
     ''' </summary>
     Private Sub SerialComm_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles SerialComm.DataReceived
         Try
+            ' Read serial buffer
             Dim readedLine As String = SerialComm.ReadLine()
-            Dim msd As DWriteResponse = AddressOf Me.WriteResponse
 
             ' If we don't wait for a response from the device after a writting operation
             If Not isWaitingResponseFromDevice Then
-                ' If it's a valide json string
+
+                ' If it's a valide json raw string
                 If IsValideJson(readedLine) Then
 
                     ' First we have to parse the raw json string
@@ -496,7 +486,7 @@ Public Class FormMain
                     If parsedJson.ContainsKey(JSN_TYPE) Then
 
                         ' IF it's a Json for LoRa Hardware
-                        If parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LORA Then
+                        If parsedJson.GetValue(JSN_TYPE, StringComparison.CurrentCulture).ToString = JSN_TYPE_LORA Then
 
                             Dim data As List(Of JToken) = parsedJson.Children().ToList
 
@@ -505,20 +495,22 @@ Public Class FormMain
                                 Select Case item.Name
                                     Case JSN_INFOS
                                         For Each msg As JObject In item.Values
-                                            Dim deveui As String = msg(JSN_DEVEUI).ToString
-                                            Dim appkey As String = msg(JSN_APPKEY).ToString
-                                            Dim appeui As String = msg(JSN_APPEUI).ToString
-
-                                            txtbAppEUI.Text = appeui
-                                            txtbAppKey.Text = appkey
-                                            txtbEUI.Text = deveui
+                                            If msg.ContainsKey(JSN_DEVEUI) Then txtbEUI.Text = msg(JSN_DEVEUI).ToString Else MsgBox(ERR_JSONKEYMISSING & " : " & JSN_DEVEUI)
+                                            If msg.ContainsKey(JSN_APPKEY) Then txtbAppKey.Text = msg(JSN_APPKEY).ToString Else MsgBox(ERR_JSONKEYMISSING & " : " & JSN_APPKEY)
+                                            If msg.ContainsKey(JSN_APPEUI) Then txtbAppEUI.Text = msg(JSN_APPEUI).ToString Else MsgBox(ERR_JSONKEYMISSING & " : " & JSN_APPEUI)
                                         Next
                                 End Select
                             Next
+
                             ' if it's a json for lights settings
-                        ElseIf parsedJson.GetValue(JSN_TYPE).ToString = JSN_TYPE_LIGHTS Then
+                        ElseIf parsedJson.GetValue(JSN_TYPE, StringComparison.CurrentCulture).ToString = JSN_TYPE_LIGHTS Then
 
                             Dim data As List(Of JToken) = parsedJson.Children().ToList
+                            ' Make beacon's button invisible
+                            btBeacon2.Visible = False
+                            btBeacon3.Visible = False
+                            btBeacon4.Visible = False
+                            btBeacon5.Visible = False
 
                             For Each item As JProperty In data
                                 item.CreateReader()
@@ -531,12 +523,16 @@ Public Class FormMain
                                                         btBeacon1.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
                                                     Case 2  ' Position 2
                                                         btBeacon2.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                        btBeacon2.Visible = True
                                                     Case 3  ' Position 3
                                                         btBeacon3.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                        btBeacon3.Visible = True
                                                     Case 4  ' Position 4
                                                         btBeacon4.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                        btBeacon4.Visible = True
                                                     Case 5  ' Position 5
                                                         btBeacon5.BackColor = GetBeaconColorJSON(msg(JSN_COLOR).ToString)
+                                                        btBeacon5.Visible = True
                                                 End Select
                                             End If
                                         Next
@@ -558,7 +554,7 @@ Public Class FormMain
             End If
 
             ' Print the received message in the serial console
-            Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), "Receiving : " & readedLine)
+            Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), STR_RECEIVING & readedLine)
         Catch ex As Exception
 
         End Try
@@ -598,7 +594,13 @@ Public Class FormMain
             Else
                 MsgBox(ERR_NOTCONNECTED)
             End If
-        Catch ex As Exception
+        Catch ex As ArgumentNullException
+            MsgBox(ERR_NULLARGUMENT & " : " & ex.ToString)
+        Catch ex As TimeoutException
+            MsgBox(ERR_WRITELORAWAN)
+        Catch ex As ArgumentException
+            MsgBox(ERR_WRITELORAWAN)
+        Catch ex As InvalidOperationException
             MsgBox(ERR_WRITELORAWAN)
         End Try
     End Sub
@@ -687,9 +689,9 @@ Public Class FormMain
             ' If communication is open
             If SerialComm.IsOpen Then
                 WriteResponse("Connected to " & SerialComm.PortName)
-                labIsConnected.Text = STR_CONNECTED
+                labIsConnected.Text = STR_CONNECTED.ToString(CultureInfo.CurrentCulture)
                 labIsConnected.ForeColor = Color.YellowGreen
-                btConnexion.Text = STR_DISCONNECTED
+                btConnexion.Text = STR_DISCONNECTED.ToString(CultureInfo.CurrentCulture)
                 ' Modify buttons
                 btSerialConf.Enabled = False
                 btCopyDeviceEUI.Enabled = True
@@ -699,9 +701,9 @@ Public Class FormMain
 
         Else ' If serial communication is open
             Try
-                WriteResponse("Disconnected")
+                WriteResponse(STR_DISCONNECTED)
                 SerialComm.Close()
-                labIsConnected.Text = STR_DISCONNECTED
+                labIsConnected.Text = STR_DISCONNECTED.ToString(CultureInfo.CurrentCulture)
                 labIsConnected.ForeColor = Color.Red
                 btConnexion.Text = STR_CONNECTED.ToString(CultureInfo.CurrentCulture)
                 pboxConnected.Image = imageDisconnected
@@ -727,6 +729,9 @@ Public Class FormMain
         FormSaveDevice.ShowDialog()
     End Sub
 
+    ''' <summary>
+    ''' Check string format of device eui when the text changed 
+    ''' </summary>
     Private Sub TxtbEUI_TextChanged(sender As Object, e As EventArgs) Handles txtbEUI.TextChanged
         If Not IsDeviceEUI(txtbEUI.Text) Then
             txtbEUI.BackColor = colorError
@@ -736,6 +741,9 @@ Public Class FormMain
         End If
     End Sub
 
+    ''' <summary>
+    ''' Check string format of Appkey when the text changed 
+    ''' </summary>
     Private Sub TxtbAppKey_TextChanged(sender As Object, e As EventArgs) Handles txtbAppKey.TextChanged
         If Not IsAppKey(txtbAppKey.Text) Then
             txtbAppKey.BackColor = colorError
@@ -745,6 +753,9 @@ Public Class FormMain
         End If
     End Sub
 
+    ''' <summary>
+    ''' Check string format of App eui when the text changed 
+    ''' </summary>
     Private Sub TxtbAppEUI_TextChanged(sender As Object, e As EventArgs) Handles txtbAppEUI.TextChanged
         If Not IsAppEUI(txtbAppEUI.Text) Then
             txtbAppEUI.BackColor = colorError
@@ -760,7 +771,7 @@ Public Class FormMain
     ''' </summary>
     ''' <param name="text">Device EUI</param>
     ''' <returns></returns>
-    Public Function IsDeviceEUI(ByVal text As String) As Boolean
+    Public Shared Function IsDeviceEUI(ByVal text As String) As Boolean
         Dim textControl As New Regex(REG_DEVICEEUI)
         Return textControl.IsMatch(text)
     End Function
@@ -771,7 +782,7 @@ Public Class FormMain
     ''' </summary>
     ''' <param name="text">AppKey</param>
     ''' <returns></returns>
-    Public Function IsAppKey(ByVal text As String) As Boolean
+    Public Shared Function IsAppKey(ByVal text As String) As Boolean
         Dim textControl As New Regex(REG_APPKEY)
         Return textControl.IsMatch(text)
     End Function
@@ -782,7 +793,7 @@ Public Class FormMain
     ''' </summary>
     ''' <param name="text">AppEUI</param>
     ''' <returns></returns>
-    Public Function IsAppEUI(ByVal text As String) As Boolean
+    Public Shared Function IsAppEUI(ByVal text As String) As Boolean
         Dim textControl As New Regex(REG_APPEUI)
         Return textControl.IsMatch(text)
     End Function
@@ -904,6 +915,11 @@ Public Class FormMain
         If Not btBeacon2.Visible Then btBeacon2.BackColor = Color.Transparent
     End Sub
 
+    ''' <summary>
+    ''' Return the color object for a string value
+    ''' </summary>
+    ''' <param name="textColorValue">Name of the color used for beacon</param>
+    ''' <returns>Color object</returns>
     Private Function GetBeaconColorJSON(ByVal textColorValue As String) As Color
         If textColorValue = JSN_COLOR_BLUE Then
             Return colorBlue
@@ -975,6 +991,8 @@ Public Class FormMain
     ''' <param name="btToChange">Button to change color</param>
     Public Sub ShowPanelInFront(ByVal panelToChange As Panel, ByVal btToChange As Button)
         Debug.Assert(Not IsNothing(panelToChange))
+        Debug.Assert(Not IsNothing(btToChange))
+
         panelLoraWAN.Visible = False
         panelSerial.Visible = False
         panelHardware.Visible = False
@@ -1017,15 +1035,22 @@ Public Class FormMain
         End If
     End Sub
 
-    Private Sub ListMessages_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listMessages.DoubleClick
+    ''' <summary>
+    ''' Event when double clicking on the listMessages
+    ''' </summary>
+    Private Sub ListMessages_DoubleClick(sender As Object, e As EventArgs) Handles listMessages.DoubleClick
         If Not IsNothing(listMessages.SelectedItem) Then
             MsgBox(listMessages.SelectedItem.ToString)
         End If
     End Sub
 
-    Private Sub btCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
+    ''' <summary>
+    ''' Copy the device EUI in the clipboard
+    ''' </summary>
+    Private Sub BtCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
         Clipboard.SetText(txtbEUI.Text)
     End Sub
+
 #End Region
 
 End Class

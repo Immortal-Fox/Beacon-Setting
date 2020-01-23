@@ -105,7 +105,7 @@ Beacon Setting
  <summary>
  Check if it's a valide Json raw string
  </summary>
- <param name="_rawJson"></param>
+ <param name="_rawJson">Raw json string</param>
  <returns></returns>
 </member>
 <member name="M:BeaconSetting.FormMain.WriteResponse(System.String)">
@@ -168,6 +168,21 @@ Beacon Setting
  Open the save device form
  </summary>
 </member>
+<member name="M:BeaconSetting.FormMain.TxtbEUI_TextChanged(System.Object,System.EventArgs)">
+ <summary>
+ Check string format of device eui when the text changed 
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.TxtbAppKey_TextChanged(System.Object,System.EventArgs)">
+ <summary>
+ Check string format of Appkey when the text changed 
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.TxtbAppEUI_TextChanged(System.Object,System.EventArgs)">
+ <summary>
+ Check string format of App eui when the text changed 
+ </summary>
+</member>
 <member name="M:BeaconSetting.FormMain.IsDeviceEUI(System.String)">
  <summary>
  Check if it's a correct Device EUI
@@ -219,6 +234,13 @@ Beacon Setting
  Change the available number of beacons
  </summary>
 </member>
+<member name="M:BeaconSetting.FormMain.GetBeaconColorJSON(System.String)">
+ <summary>
+ Return the color object for a string value
+ </summary>
+ <param name="textColorValue">Name of the color used for beacon</param>
+ <returns>Color object</returns>
+</member>
 <member name="M:BeaconSetting.FormMain.BtMenuHardware_Click(System.Object,System.EventArgs)">
  <summary>
  User clicked on Hardware Settings's button
@@ -255,6 +277,16 @@ Beacon Setting
 <member name="M:BeaconSetting.FormMain.TimerEffect_Tick(System.Object,System.EventArgs)">
  <summary>
  Timer for special color effect
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.ListMessages_DoubleClick(System.Object,System.EventArgs)">
+ <summary>
+ Event when double clicking on the listMessages
+ </summary>
+</member>
+<member name="M:BeaconSetting.FormMain.BtCopyDeviceEUI_Click(System.Object,System.EventArgs)">
+ <summary>
+ Copy the device EUI in the clipboard
  </summary>
 </member>
 <member name="T:BeaconSetting.FormSaveDevice">
@@ -369,11 +401,6 @@ Beacon Setting
 <member name="T:BeaconSetting.ParameterFileReader.ParameterRelation">
  <summary>
  Relation entre un nom et une valeur
- </summary>
-</member>
-<member name="T:BeaconSetting.StructDevice">
- <summary>
- Device structure
  </summary>
 </member>
 </members>
