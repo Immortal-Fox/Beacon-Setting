@@ -788,8 +788,9 @@ Partial Class FormMain
         Me.txtbVersionNotes.ReadOnly = True
         Me.txtbVersionNotes.Size = New System.Drawing.Size(335, 218)
         Me.txtbVersionNotes.TabIndex = 0
-        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.2 - 27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  + Added light profils" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.1 - 27.01.2020" &
-    "" & Global.Microsoft.VisualBasic.ChrW(10) & "  First release"
+        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.21 - 27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  + Update light profils" & Global.Microsoft.VisualBasic.ChrW(10) & "  + Bugs fixed" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "  Version" &
+    " 0.2 - 27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  + Added light profils" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.1 - 27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  + First " &
+    "release"
         '
         'panelEffect
         '

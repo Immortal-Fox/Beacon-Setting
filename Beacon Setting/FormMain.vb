@@ -122,7 +122,7 @@ Public Class FormMain
     Private dirAppDataRoot As String      ' AppData/"ProgramName"
     Private dirSavedDevices As String     ' AppData/"ProgramName"/Saved Devices
     Private dirCache As String            ' AppData/"ProgramName"/Cache
-    Private dirLightsProfils As String    ' AppData/"ProgramName"/Lights Profils
+    '    Private dirLightsProfils As String    ' AppData/"ProgramName"/Lights Profils
 
     ' Cache file manager
     Private parameterFile As ParameterFileReader
@@ -194,8 +194,6 @@ Public Class FormMain
         parameterFile.ReadFile(dirCache & "/cache.txt")
 
         LoadCache()
-
-        '   FormLightProfils.Height = Me.Height - 50
     End Sub
 
     ''' <summary>
@@ -248,6 +246,9 @@ Public Class FormMain
         imageDisconnected.Dispose()
     End Sub
 
+    ''' <summary>
+    ''' Change the location of the FormLightProfils
+    ''' </summary>
     Private Sub FormMain_LocationChanged(sender As Object, e As EventArgs) Handles Me.LocationChanged
         FormLightProfils.Location = New Point(Me.Location.X + Me.Size.Width - 7, Me.Location.Y + 31)
     End Sub
@@ -673,6 +674,15 @@ Public Class FormMain
     End Sub
 
     ''' <summary>
+    ''' Event when double clicking on the listMessages
+    ''' </summary>
+    Private Sub ListMessages_DoubleClick(sender As Object, e As EventArgs) Handles listMessages.DoubleClick
+        If Not IsNothing(listMessages.SelectedItem) Then
+            MsgBox(listMessages.SelectedItem.ToString)
+        End If
+    End Sub
+
+    ''' <summary>
     ''' Refresh the COM Port list
     ''' </summary>
     Private Sub BtRefresh_Click(sender As Object, e As EventArgs) Handles btRefresh.Click
@@ -761,6 +771,13 @@ Public Class FormMain
     ''' </summary>
     Private Sub BtSaveDevice_Click(sender As Object, e As EventArgs) Handles btSaveDevice.Click
         FormSaveDevice.ShowDialog()
+    End Sub
+
+    ''' <summary>
+    ''' Copy the device EUI in the clipboard
+    ''' </summary>
+    Private Sub BtCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
+        Clipboard.SetText(txtbEUI.Text)
     End Sub
 
     ''' <summary>
@@ -879,6 +896,51 @@ Public Class FormMain
     End Function
 
     ''' <summary>
+    ''' Apply light profil
+    ''' </summary>
+    ''' <param name="light1">String color for light 1</param>
+    ''' <param name="light2">String color for light 2</param>
+    ''' <param name="light3">String color for light 3</param>
+    ''' <param name="light4">String color for light 4</param>
+    ''' <param name="light5">String color for light 5</param>
+    Public Sub SetLightsButton(ByVal nbrBeacon As Byte, Optional light1 As String = Nothing, Optional light2 As String = Nothing, Optional light3 As String = Nothing, Optional light4 As String = Nothing, Optional light5 As String = Nothing)
+        ' Light 1
+        numNbrBeacons.Value = nbrBeacon
+        If Not IsNothing(light1) Then
+            btBeacon1.Visible = True
+            btBeacon1.BackColor = GetBeaconColorJSON(light1)
+        End If
+        ' Light 2
+        If Not IsNothing(light2) Then
+            btBeacon2.Visible = True
+            btBeacon2.BackColor = GetBeaconColorJSON(light2)
+        Else
+            btBeacon2.Visible = False
+        End If
+        ' Light 3
+        If Not IsNothing(light3) Then
+            btBeacon3.Visible = True
+            btBeacon3.BackColor = GetBeaconColorJSON(light3)
+        Else
+            btBeacon3.Visible = False
+        End If
+        ' Light 4
+        If Not IsNothing(light4) Then
+            btBeacon4.Visible = True
+            btBeacon4.BackColor = GetBeaconColorJSON(light4)
+        Else
+            btBeacon4.Visible = False
+        End If
+        ' Light 5
+        If Not IsNothing(light5) Then
+            btBeacon5.Visible = True
+            btBeacon5.BackColor = GetBeaconColorJSON(light5)
+        Else
+            btBeacon5.Visible = False
+        End If
+    End Sub
+
+    ''' <summary>
     ''' Change the color of the current selected beacon
     ''' </summary>
     Private Sub CboxColor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboxColor.SelectedIndexChanged
@@ -968,6 +1030,18 @@ Public Class FormMain
         End If
         Return Color.Transparent
     End Function
+
+    ''' <summary>
+    ''' Show the light profils form
+    ''' </summary>
+    Private Sub BtLightProfil_Click(sender As Object, e As EventArgs) Handles btLightProfil.Click
+        If FormLightProfils.Visible Then
+            FormLightProfils.Visible = False
+        Else
+            FormLightProfils.Visible = True
+            FormLightProfils.Location = New Point(Me.Location.X + Me.Size.Width - 7, Me.Location.Y + 31)
+        End If
+    End Sub
 
 #End Region
 
@@ -1072,21 +1146,6 @@ Public Class FormMain
     End Sub
 
 #End Region
-    ''' <summary>
-    ''' Event when double clicking on the listMessages
-    ''' </summary>
-    Private Sub ListMessages_DoubleClick(sender As Object, e As EventArgs) Handles listMessages.DoubleClick
-        If Not IsNothing(listMessages.SelectedItem) Then
-            MsgBox(listMessages.SelectedItem.ToString)
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Copy the device EUI in the clipboard
-    ''' </summary>
-    Private Sub BtCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
-        Clipboard.SetText(txtbEUI.Text)
-    End Sub
 
     ''' <summary>
     ''' Open the github repository in the navigator
@@ -1095,60 +1154,4 @@ Public Class FormMain
         Process.Start(URL_GITHUB)
     End Sub
 
-    ''' <summary>
-    ''' Apply light profil
-    ''' </summary>
-    ''' <param name="light1">String color for light 1</param>
-    ''' <param name="light2">String color for light 2</param>
-    ''' <param name="light3">String color for light 3</param>
-    ''' <param name="light4">String color for light 4</param>
-    ''' <param name="light5">String color for light 5</param>
-    Public Sub SetLightsButton(Optional light1 As String = Nothing, Optional light2 As String = Nothing, Optional light3 As String = Nothing, Optional light4 As String = Nothing, Optional light5 As String = Nothing)
-        ' Light 1
-        If Not IsNothing(light1) Then
-            btBeacon1.Visible = True
-            btBeacon1.BackColor = GetBeaconColorJSON(light1)
-        End If
-        ' Light 2
-        If Not IsNothing(light2) Then
-            btBeacon2.Visible = True
-            btBeacon2.BackColor = GetBeaconColorJSON(light2)
-        Else
-            btBeacon2.Visible = False
-        End If
-        ' Light 3
-        If Not IsNothing(light3) Then
-            btBeacon3.Visible = True
-            btBeacon3.BackColor = GetBeaconColorJSON(light3)
-        Else
-            btBeacon3.Visible = False
-        End If
-        ' Light 4
-        If Not IsNothing(light4) Then
-            btBeacon4.Visible = True
-            btBeacon4.BackColor = GetBeaconColorJSON(light4)
-        Else
-            btBeacon4.Visible = False
-        End If
-        ' Light 5
-        If Not IsNothing(light5) Then
-            btBeacon5.Visible = True
-            btBeacon5.BackColor = GetBeaconColorJSON(light5)
-        Else
-            btBeacon5.Visible = False
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Show the light profils form
-    ''' </summary>
-    Private Sub BtLightProfil_Click(sender As Object, e As EventArgs) Handles btLightProfil.Click
-        If FormLightProfils.Visible Then
-            FormLightProfils.Visible = False
-        Else
-            FormLightProfils.Visible = True
-            FormLightProfils.Location = New Point(Me.Location.X + Me.Size.Width - 7, Me.Location.Y + 31)
-        End If
-
-    End Sub
 End Class

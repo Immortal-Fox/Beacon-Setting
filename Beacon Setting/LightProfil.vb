@@ -19,6 +19,9 @@ Public Class LightProfil
     Private bmp As Bitmap
     Private ReadOnly beaconRectSize As Size = New Size(30, 30)
 
+    ''' <summary>
+    ''' Create a new light profil
+    ''' </summary>
     Sub New()
         ' Create bitmap and its graphic
         SetImageSize(graphicSize)
@@ -39,24 +42,27 @@ Public Class LightProfil
     End Sub
 
     ''' <summary>
-    ''' Actualize this graphic
+    ''' Refresh this graphic,
+    ''' Draw the image
     ''' </summary>
     Private Sub RefreshGraphic()
         ' Text format to center text and center alignement
-        Dim formatText As StringFormat = New StringFormat()
-        formatText.Alignment = StringAlignment.Center
-        formatText.LineAlignment = StringAlignment.Center
+        Dim formatText As StringFormat = New StringFormat With {
+            .Alignment = StringAlignment.Center,
+            .LineAlignment = StringAlignment.Center
+        }
+
         Dim titleFont As New Font("Consolas", 9, FontStyle.Bold)
         ' Set image size
         SetImageSize(New Size(Me.Width, 25 + (beaconRectSize.Height * numberOfBeacon) + 2))
 
-        ' Clear
+        ' Clear bitmap
         g.Clear(Color.Gainsboro)
         ' Title
         Dim rectTitle As New Rectangle(0, 0, Me.Width, 25)
         g.FillRectangle(New SolidBrush(Color.LightGray), rectTitle)
         g.DrawString(title, titleFont, New SolidBrush(Color.Black), rectTitle, formatText)
-        ' Beacon
+        ' Beacons
         Dim rectBeacon As New Rectangle(New Point(CInt(Me.Width / 2 - beaconRectSize.Width / 2), rectTitle.Y + rectTitle.Height + beaconRectSize.Height * (numberOfBeacon - 1)), beaconRectSize)
         If numberOfBeacon >= 1 Then
             g.FillRectangle(New SolidBrush(FormMain.GetBeaconColorJSON(colorLight1)), rectBeacon)
@@ -128,8 +134,11 @@ Public Class LightProfil
         RefreshGraphic()
     End Sub
 
+    ''' <summary>
+    ''' Apply the light profil
+    ''' </summary>
     Sub ControlCLick() Handles Me.DoubleClick
-        FormMain.SetLightsButton(colorLight1, colorLight2, colorLight3, colorLight4, colorLight5)
+        FormMain.SetLightsButton(numberOfBeacon, colorLight1, colorLight2, colorLight3, colorLight4, colorLight5)
     End Sub
 
     ''' <summary>
