@@ -750,9 +750,9 @@ Partial Class FormMain
         Me.labVersion.Font = New System.Drawing.Font("Consolas", 9.0!)
         Me.labVersion.Location = New System.Drawing.Point(13, 44)
         Me.labVersion.Name = "labVersion"
-        Me.labVersion.Size = New System.Drawing.Size(98, 14)
+        Me.labVersion.Size = New System.Drawing.Size(105, 14)
         Me.labVersion.TabIndex = 3
-        Me.labVersion.Text = "Version : 0.2"
+        Me.labVersion.Text = "Version : 0.21"
         '
         'labAbout
         '

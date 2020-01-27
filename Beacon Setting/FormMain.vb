@@ -30,7 +30,7 @@ Public Class FormMain
     ''' <summary>
     ''' current version
     ''' </summary>
-    Private ReadOnly version As String = "0.2"
+    Private ReadOnly version As String = "0.21"
 
     ''' <summary>
     ''' Selected beacon for settings
