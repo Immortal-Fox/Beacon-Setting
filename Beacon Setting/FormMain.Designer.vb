@@ -70,6 +70,7 @@ Partial Class FormMain
         Me.btMenuHardware = New System.Windows.Forms.Button()
         Me.panelContent = New System.Windows.Forms.Panel()
         Me.panelAbout = New System.Windows.Forms.Panel()
+        Me.llab_github = New System.Windows.Forms.LinkLabel()
         Me.labDevWith = New System.Windows.Forms.Label()
         Me.labContact = New System.Windows.Forms.Label()
         Me.labVersion = New System.Windows.Forms.Label()
@@ -682,6 +683,7 @@ Partial Class FormMain
         'panelAbout
         '
         Me.panelAbout.BackColor = System.Drawing.Color.Silver
+        Me.panelAbout.Controls.Add(Me.llab_github)
         Me.panelAbout.Controls.Add(Me.labDevWith)
         Me.panelAbout.Controls.Add(Me.labContact)
         Me.panelAbout.Controls.Add(Me.labVersion)
@@ -694,11 +696,22 @@ Partial Class FormMain
         Me.panelAbout.TabIndex = 2
         Me.panelAbout.Visible = False
         '
+        'llab_github
+        '
+        Me.llab_github.AutoSize = True
+        Me.llab_github.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.llab_github.Location = New System.Drawing.Point(13, 109)
+        Me.llab_github.Name = "llab_github"
+        Me.llab_github.Size = New System.Drawing.Size(126, 14)
+        Me.llab_github.TabIndex = 6
+        Me.llab_github.TabStop = True
+        Me.llab_github.Text = "Github repository"
+        '
         'labDevWith
         '
         Me.labDevWith.AutoSize = True
         Me.labDevWith.Font = New System.Drawing.Font("Consolas", 9.0!)
-        Me.labDevWith.Location = New System.Drawing.Point(13, 73)
+        Me.labDevWith.Location = New System.Drawing.Point(13, 65)
         Me.labDevWith.Name = "labDevWith"
         Me.labDevWith.Size = New System.Drawing.Size(210, 14)
         Me.labDevWith.TabIndex = 5
@@ -708,7 +721,7 @@ Partial Class FormMain
         '
         Me.labContact.AutoSize = True
         Me.labContact.Font = New System.Drawing.Font("Consolas", 9.0!)
-        Me.labContact.Location = New System.Drawing.Point(13, 100)
+        Me.labContact.Location = New System.Drawing.Point(13, 88)
         Me.labContact.Name = "labContact"
         Me.labContact.Size = New System.Drawing.Size(245, 14)
         Me.labContact.TabIndex = 4
@@ -718,11 +731,11 @@ Partial Class FormMain
         '
         Me.labVersion.AutoSize = True
         Me.labVersion.Font = New System.Drawing.Font("Consolas", 9.0!)
-        Me.labVersion.Location = New System.Drawing.Point(13, 48)
+        Me.labVersion.Location = New System.Drawing.Point(13, 44)
         Me.labVersion.Name = "labVersion"
-        Me.labVersion.Size = New System.Drawing.Size(84, 14)
+        Me.labVersion.Size = New System.Drawing.Size(98, 14)
         Me.labVersion.TabIndex = 3
-        Me.labVersion.Text = "Version : 1"
+        Me.labVersion.Text = "Version : 0.1"
         '
         'labAbout
         '
@@ -742,7 +755,7 @@ Partial Class FormMain
         '
         Me.labAuthor.AutoSize = True
         Me.labAuthor.Font = New System.Drawing.Font("Consolas", 9.0!)
-        Me.labAuthor.Location = New System.Drawing.Point(13, 31)
+        Me.labAuthor.Location = New System.Drawing.Point(13, 29)
         Me.labAuthor.Name = "labAuthor"
         Me.labAuthor.Size = New System.Drawing.Size(196, 14)
         Me.labAuthor.TabIndex = 1
@@ -758,7 +771,7 @@ Partial Class FormMain
         Me.txtbVersionNotes.ReadOnly = True
         Me.txtbVersionNotes.Size = New System.Drawing.Size(335, 218)
         Me.txtbVersionNotes.TabIndex = 0
-        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 1  -  15.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  Initial Release"
+        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.1  -  27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  First release"
         '
         'panelEffect
         '
@@ -857,4 +870,5 @@ Partial Class FormMain
     Friend WithEvents btClearMessages As Button
     Friend WithEvents pboxConnected As PictureBox
     Friend WithEvents labDevWith As Label
+    Friend WithEvents llab_github As LinkLabel
 End Class

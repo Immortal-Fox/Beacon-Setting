@@ -30,7 +30,7 @@ Public Class FormMain
     ''' <summary>
     ''' current version
     ''' </summary>
-    Private ReadOnly version As Integer = 1
+    Private ReadOnly version As Double = 0.1
 
     ''' <summary>
     ''' Selected beacon for settings
@@ -47,6 +47,9 @@ Public Class FormMain
     ' Images for windows forms design
     Private ReadOnly imageConnected As Image = My.Resources.connected
     Private ReadOnly imageDisconnected As Image = My.Resources.disconnected
+
+    ' URL
+    Private Const URL_GITHUB As String = "https://github.com/Immortal-Fox/Beacon-Setting"
 
     ' String constants for Json building
     Private Const JSN_TYPE As String = "Type"
@@ -1049,6 +1052,13 @@ Public Class FormMain
     ''' </summary>
     Private Sub BtCopyDeviceEUI_Click(sender As Object, e As EventArgs) Handles btCopyDeviceEUI.Click
         Clipboard.SetText(txtbEUI.Text)
+    End Sub
+
+    ''' <summary>
+    ''' Open the github repository in the navigator
+    ''' </summary>
+    Private Sub Llab_github_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llab_github.LinkClicked
+        Process.Start(URL_GITHUB)
     End Sub
 
 #End Region
