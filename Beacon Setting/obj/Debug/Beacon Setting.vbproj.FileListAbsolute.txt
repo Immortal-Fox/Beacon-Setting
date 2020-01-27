@@ -14,3 +14,4 @@ C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon
 C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.exe
 C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.xml
 C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\Beacon Setting.pdb
+C:\Users\Ludovic\Documents\GitHub\Beacon-Setting\Beacon Setting\obj\Debug\BeaconSetting.FormLightProfils.resources

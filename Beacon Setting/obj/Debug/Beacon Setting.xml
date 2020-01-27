@@ -294,6 +294,21 @@ Beacon Setting
  Open the github repository in the navigator
  </summary>
 </member>
+<member name="M:BeaconSetting.FormMain.SetLightsButton(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ Apply light profil
+ </summary>
+ <param name="light1">String color for light 1</param>
+ <param name="light2">String color for light 2</param>
+ <param name="light3">String color for light 3</param>
+ <param name="light4">String color for light 4</param>
+ <param name="light5">String color for light 5</param>
+</member>
+<member name="M:BeaconSetting.FormMain.BtLightProfil_Click(System.Object,System.EventArgs)">
+ <summary>
+ Show the light profils form
+ </summary>
+</member>
 <member name="T:BeaconSetting.FormSaveDevice">
  <summary>
  Form for saving device settings
@@ -323,6 +338,38 @@ Beacon Setting
  <summary>
  Apply settings to the FormMain SerialPort
  </summary>
+</member>
+<member name="T:BeaconSetting.LightProfil">
+ <summary>
+ It's a customizable light profil
+ </summary>
+</member>
+<member name="M:BeaconSetting.LightProfil.SetImageSize(System.Drawing.Size)">
+ <summary>
+ Set image size
+ </summary>
+ <param name="imgSize">Image size</param>
+</member>
+<member name="M:BeaconSetting.LightProfil.RefreshGraphic">
+ <summary>
+ Actualize this graphic
+ </summary>
+</member>
+<member name="M:BeaconSetting.LightProfil.SetLights(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ Set light color for this profil
+ </summary>
+ <param name="light1"></param>
+ <param name="light2"></param>
+ <param name="light3"></param>
+ <param name="light4"></param>
+ <param name="light5"></param>
+</member>
+<member name="P:BeaconSetting.LightProfil.GetTitle">
+ <summary>
+ Get or Set the title field
+ </summary>
+ <returns>Title</returns>
 </member>
 <member name="T:BeaconSetting.ParameterFileReader">
  <summary>

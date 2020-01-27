@@ -30,7 +30,7 @@ Public Class FormMain
     ''' <summary>
     ''' current version
     ''' </summary>
-    Private ReadOnly version As Double = 0.1
+    Private ReadOnly version As String = "0.2"
 
     ''' <summary>
     ''' Selected beacon for settings
@@ -85,6 +85,8 @@ Public Class FormMain
     Private Const STR_NOTCONNECTED As String = "Not connected..."
     Private Const STR_SENDING As String = "Sending : "
     Private Const STR_RECEIVING As String = "Receiving : "
+    Private Const STR_BTLIGHTPROFIL1 As String = "Light profils >"
+    Private Const STR_BTLIGHTPROFIL2 As String = "Light profils <"
 
     ' Success messages
     Private Const SUC_SENDINGOK As String = "Sending data success"
@@ -103,6 +105,7 @@ Public Class FormMain
     Private Const ERR_WRITELIGHTS As String = "Error : While writting lights settings..."
     Private Const ERR_NOMATCHINGDATA As String = "Error : While writting data on the device"
     Private Const ERR_JSONKEYMISSING As String = "Error : Json key property missing"
+    Private Const ERR_RECEIVINGDEVICEINFO As String = "Error : while receiving device information"
     Private Const ERR_NULLARGUMENT As String = "Error : Argument Null Exception"
 
     ' Regular Expressions for validating fields
@@ -119,6 +122,7 @@ Public Class FormMain
     Private dirAppDataRoot As String      ' AppData/"ProgramName"
     Private dirSavedDevices As String     ' AppData/"ProgramName"/Saved Devices
     Private dirCache As String            ' AppData/"ProgramName"/Cache
+    Private dirLightsProfils As String    ' AppData/"ProgramName"/Lights Profils
 
     ' Cache file manager
     Private parameterFile As ParameterFileReader
@@ -191,6 +195,7 @@ Public Class FormMain
 
         LoadCache()
 
+        '   FormLightProfils.Height = Me.Height - 50
     End Sub
 
     ''' <summary>
@@ -241,6 +246,10 @@ Public Class FormMain
         ' Delete Image
         imageConnected.Dispose()
         imageDisconnected.Dispose()
+    End Sub
+
+    Private Sub FormMain_LocationChanged(sender As Object, e As EventArgs) Handles Me.LocationChanged
+        FormLightProfils.Location = New Point(Me.Location.X + Me.Size.Width - 7, Me.Location.Y + 31)
     End Sub
 
 #End Region
@@ -558,8 +567,14 @@ Public Class FormMain
 
             ' Print the received message in the serial console
             Me.Invoke(New DWriteResponse(AddressOf Me.WriteResponse), STR_RECEIVING & readedLine)
-        Catch ex As Exception
-
+        Catch ex As TimeoutException
+            MsgBox(ERR_RECEIVINGDEVICEINFO)
+        Catch ex As InvalidOperationException
+            MsgBox(ERR_RECEIVINGDEVICEINFO)
+        Catch ex As JsonReaderException
+            MsgBox(ERR_RECEIVINGDEVICEINFO)
+        Catch ex As ArgumentNullException
+            MsgBox(ERR_RECEIVINGDEVICEINFO)
         End Try
     End Sub
 
@@ -623,8 +638,10 @@ Public Class FormMain
             Else
                 MsgBox(ERR_BEACONSCOLOR)
             End If
-        Catch ex As Exception
-            MsgBox(ERR_WRITELIGHTS)
+        Catch ex As ArgumentNullException
+            MsgBox(ERR_WRITELIGHTS & vbCrLf & System.Reflection.MethodBase.GetCurrentMethod().Name)
+        Catch ex As ArgumentException
+            MsgBox(ERR_WRITELIGHTS & vbCrLf & System.Reflection.MethodBase.GetCurrentMethod().Name)
         End Try
     End Sub
 
@@ -683,8 +700,22 @@ Public Class FormMain
                 ' Try to open a new communication
                 SerialComm.Open()
 
-            Catch ex As Exception
-                ' Else show exception message
+            Catch ex As ArgumentNullException
+                MsgBox(ERR_OPENCOMMUNICATION)
+                Exit Sub
+            Catch ex As ArgumentOutOfRangeException
+                MsgBox(ERR_OPENCOMMUNICATION)
+                Exit Sub
+            Catch ex As ArgumentException
+                MsgBox(ERR_OPENCOMMUNICATION)
+                Exit Sub
+            Catch ex As InvalidOperationException
+                MsgBox(ERR_OPENCOMMUNICATION)
+                Exit Sub
+            Catch ex As UnauthorizedAccessException
+                MsgBox(ERR_OPENCOMMUNICATION)
+                Exit Sub
+            Catch ex As IOException
                 MsgBox(ERR_OPENCOMMUNICATION)
                 Exit Sub
             End Try
@@ -714,7 +745,7 @@ Public Class FormMain
                 btSerialConf.Enabled = True
                 btCopyDeviceEUI.Enabled = False
                 btWrite.Enabled = False
-            Catch ex As Exception
+            Catch ex As IOException
                 MsgBox(ERR_CLOSECOMMUNICATION)
             End Try
         End If
@@ -923,7 +954,7 @@ Public Class FormMain
     ''' </summary>
     ''' <param name="textColorValue">Name of the color used for beacon</param>
     ''' <returns>Color object</returns>
-    Private Function GetBeaconColorJSON(ByVal textColorValue As String) As Color
+    Public Function GetBeaconColorJSON(ByVal textColorValue As String) As Color
         If textColorValue = JSN_COLOR_BLUE Then
             Return colorBlue
         ElseIf textColorValue = JSN_COLOR_GREEN Then
@@ -995,7 +1026,9 @@ Public Class FormMain
     Public Sub ShowPanelInFront(ByVal panelToChange As Panel, ByVal btToChange As Button)
         Debug.Assert(Not IsNothing(panelToChange))
         Debug.Assert(Not IsNothing(btToChange))
-
+        If FormLightProfils.Visible Then
+            FormLightProfils.Close()
+        End If
         panelLoraWAN.Visible = False
         panelSerial.Visible = False
         panelHardware.Visible = False
@@ -1038,6 +1071,7 @@ Public Class FormMain
         End If
     End Sub
 
+#End Region
     ''' <summary>
     ''' Event when double clicking on the listMessages
     ''' </summary>
@@ -1061,6 +1095,60 @@ Public Class FormMain
         Process.Start(URL_GITHUB)
     End Sub
 
-#End Region
+    ''' <summary>
+    ''' Apply light profil
+    ''' </summary>
+    ''' <param name="light1">String color for light 1</param>
+    ''' <param name="light2">String color for light 2</param>
+    ''' <param name="light3">String color for light 3</param>
+    ''' <param name="light4">String color for light 4</param>
+    ''' <param name="light5">String color for light 5</param>
+    Public Sub SetLightsButton(Optional light1 As String = Nothing, Optional light2 As String = Nothing, Optional light3 As String = Nothing, Optional light4 As String = Nothing, Optional light5 As String = Nothing)
+        ' Light 1
+        If Not IsNothing(light1) Then
+            btBeacon1.Visible = True
+            btBeacon1.BackColor = GetBeaconColorJSON(light1)
+        End If
+        ' Light 2
+        If Not IsNothing(light2) Then
+            btBeacon2.Visible = True
+            btBeacon2.BackColor = GetBeaconColorJSON(light2)
+        Else
+            btBeacon2.Visible = False
+        End If
+        ' Light 3
+        If Not IsNothing(light3) Then
+            btBeacon3.Visible = True
+            btBeacon3.BackColor = GetBeaconColorJSON(light3)
+        Else
+            btBeacon3.Visible = False
+        End If
+        ' Light 4
+        If Not IsNothing(light4) Then
+            btBeacon4.Visible = True
+            btBeacon4.BackColor = GetBeaconColorJSON(light4)
+        Else
+            btBeacon4.Visible = False
+        End If
+        ' Light 5
+        If Not IsNothing(light5) Then
+            btBeacon5.Visible = True
+            btBeacon5.BackColor = GetBeaconColorJSON(light5)
+        Else
+            btBeacon5.Visible = False
+        End If
+    End Sub
 
+    ''' <summary>
+    ''' Show the light profils form
+    ''' </summary>
+    Private Sub BtLightProfil_Click(sender As Object, e As EventArgs) Handles btLightProfil.Click
+        If FormLightProfils.Visible Then
+            FormLightProfils.Visible = False
+        Else
+            FormLightProfils.Visible = True
+            FormLightProfils.Location = New Point(Me.Location.X + Me.Size.Width - 7, Me.Location.Y + 31)
+        End If
+
+    End Sub
 End Class

@@ -25,6 +25,7 @@ Partial Class FormMain
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Me.panelHardware = New System.Windows.Forms.Panel()
+        Me.btLightProfil = New System.Windows.Forms.Button()
         Me.btHardwareWrite = New System.Windows.Forms.Button()
         Me.cboxColor = New System.Windows.Forms.ComboBox()
         Me.labNbrBeacons = New System.Windows.Forms.Label()
@@ -93,6 +94,7 @@ Partial Class FormMain
         'panelHardware
         '
         Me.panelHardware.BackColor = System.Drawing.Color.Silver
+        Me.panelHardware.Controls.Add(Me.btLightProfil)
         Me.panelHardware.Controls.Add(Me.btHardwareWrite)
         Me.panelHardware.Controls.Add(Me.cboxColor)
         Me.panelHardware.Controls.Add(Me.labNbrBeacons)
@@ -112,6 +114,21 @@ Partial Class FormMain
         Me.panelHardware.TabIndex = 0
         Me.panelHardware.Visible = False
         '
+        'btLightProfil
+        '
+        Me.btLightProfil.BackColor = System.Drawing.Color.Navy
+        Me.btLightProfil.FlatAppearance.BorderSize = 0
+        Me.btLightProfil.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btLightProfil.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btLightProfil.ForeColor = System.Drawing.Color.White
+        Me.btLightProfil.Location = New System.Drawing.Point(190, 301)
+        Me.btLightProfil.Margin = New System.Windows.Forms.Padding(2)
+        Me.btLightProfil.Name = "btLightProfil"
+        Me.btLightProfil.Size = New System.Drawing.Size(129, 31)
+        Me.btLightProfil.TabIndex = 13
+        Me.btLightProfil.Text = "Light profils >"
+        Me.btLightProfil.UseVisualStyleBackColor = False
+        '
         'btHardwareWrite
         '
         Me.btHardwareWrite.BackColor = System.Drawing.Color.Navy
@@ -119,10 +136,10 @@ Partial Class FormMain
         Me.btHardwareWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btHardwareWrite.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btHardwareWrite.ForeColor = System.Drawing.Color.White
-        Me.btHardwareWrite.Location = New System.Drawing.Point(128, 301)
+        Me.btHardwareWrite.Location = New System.Drawing.Point(106, 301)
         Me.btHardwareWrite.Margin = New System.Windows.Forms.Padding(2)
         Me.btHardwareWrite.Name = "btHardwareWrite"
-        Me.btHardwareWrite.Size = New System.Drawing.Size(150, 31)
+        Me.btHardwareWrite.Size = New System.Drawing.Size(80, 31)
         Me.btHardwareWrite.TabIndex = 12
         Me.btHardwareWrite.Text = "Write"
         Me.btHardwareWrite.UseVisualStyleBackColor = False
@@ -735,7 +752,7 @@ Partial Class FormMain
         Me.labVersion.Name = "labVersion"
         Me.labVersion.Size = New System.Drawing.Size(98, 14)
         Me.labVersion.TabIndex = 3
-        Me.labVersion.Text = "Version : 0.1"
+        Me.labVersion.Text = "Version : 0.2"
         '
         'labAbout
         '
@@ -771,7 +788,8 @@ Partial Class FormMain
         Me.txtbVersionNotes.ReadOnly = True
         Me.txtbVersionNotes.Size = New System.Drawing.Size(335, 218)
         Me.txtbVersionNotes.TabIndex = 0
-        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.1  -  27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  First release"
+        Me.txtbVersionNotes.Text = "  " & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.2 - 27.01.2020" & Global.Microsoft.VisualBasic.ChrW(10) & "  + Added light profils" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "  Version 0.1 - 27.01.2020" &
+    "" & Global.Microsoft.VisualBasic.ChrW(10) & "  First release"
         '
         'panelEffect
         '
@@ -871,4 +889,5 @@ Partial Class FormMain
     Friend WithEvents pboxConnected As PictureBox
     Friend WithEvents labDevWith As Label
     Friend WithEvents llab_github As LinkLabel
+    Friend WithEvents btLightProfil As Button
 End Class
